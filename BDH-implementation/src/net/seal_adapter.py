@@ -1,11 +1,6 @@
 """
-SEAL Adapter for Diffusion Models - CORRECTED VERSION
+SEAL Adapter for DIT-BDH
 
-FIXES APPLIED:
-1. Uses corrected diffusion inverse methods
-2. Proper device handling
-3. Fixed self-consistency check
-4. Compatible with corrected GaussianDiffusion
 """
 
 from copy import deepcopy
