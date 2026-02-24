@@ -26,7 +26,17 @@ BDH-implementation/
 ├── utils_net.py            # Core neural network utilities
 └── requirements.txt        # Python dependencies
 ```
+### 📥 Downloading Required Model Files
 
+Due to GitHub's file size limits, the large files required to fully implement and run this model are hosted externally on Google Drive. 
+
+Before executing the code, please download the following three files and place them in their designated directories:
+
+| File Name | Download Link | Destination Path |
+| :--- | :--- | :--- |
+| `[File 1 Name, e.g., model_weights.pt]` | [Download Here](Insert_Google_Drive_Link_1) | `[e.g., ./models/weights/]` |
+| `[File 2 Name, e.g., tokenizer.json]` | [Download Here](Insert_Google_Drive_Link_2) | `[e.g., ./models/tokenizer/]` |
+| `[File 3 Name, e.g., dataset.csv]` | [Download Here](Insert_Google_Drive_Link_3) | `[e.g., ./data/raw/]` |
 
 
 https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
