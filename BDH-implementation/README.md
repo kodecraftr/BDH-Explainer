@@ -33,6 +33,8 @@ BDH-implementation/
 
 ### 🔀 End-to-End Execution Flowchart
 
+![architecture](data/architecture.png)
+
 ```mermaid
 flowchart TD
     %% ========== DATA INPUT & PREPROCESS ==========
