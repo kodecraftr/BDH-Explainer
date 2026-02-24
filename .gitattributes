@@ -1,0 +1,4 @@
+BDH-visualizer/Models/BDH_model/checkpoints/*.pt filter=lfs diff=lfs merge=lfs -text
+BDH-visualizer/Models/BDH_model/openwebtext_bin/*.bin filter=lfs diff=lfs merge=lfs -text
+BDH-visualizer/Models/Transformer_model/checkpoints/*.pt filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
