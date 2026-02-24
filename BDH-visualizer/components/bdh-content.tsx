@@ -20,6 +20,13 @@ export function BDHContent() {
         </p>
       </div>
 
+      <div className="article-section" id="bdh-implementation">
+        <h2>BDH implementation</h2>
+        <p>
+          View the implementation: <a href="/bdh-implementation.html" target="_blank" rel="noopener noreferrer">BDH implementation page</a>
+        </p>
+      </div>
+
       <div className="article-section">
         <h1>BDH Architecture</h1>
 
