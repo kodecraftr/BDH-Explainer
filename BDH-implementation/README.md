@@ -168,7 +168,7 @@ pip install -r requirements.txt
 
 ### 4. Prepare the Dataset
 
-We have pre-processed data for training in sailor_npy and that for inference in inference_npy (the process for getting them is mentioned above).
+We have pre-processed data for training in sailor_npy ([Download Here](https://drive.google.com/drive/folders/1CYIztxcB2ApVmGQOfrpTVJwIFmITpzML)) and that for inference in inference_npy ([Download Here ([Download Here](https://drive.google.com/drive/folders/1ySYWy8tMg8TSjOmhA30yQIX0v0ZIW9md)) 
 
 Otherwise :
 
@@ -181,7 +181,7 @@ python data/preproc_prepare_data.py \
 ```
 
 ### 5. Train the Model
-We have trained weights for the model in logs (the process for getting them is mentioned above), which can be directly used.
+We have trained weights for the model in logs ([Download Here](https://drive.google.com/drive/folders/1Ep1H8V7LfOQjbx2kZQ5SccMCER4gNvJ7)), which can be directly used.
 
 Otherwise : 
 
