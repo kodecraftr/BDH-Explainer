@@ -1,0 +1,87 @@
+# Core dependencies for BDH Visuals Project
+# Generated for cross-platform compatibility
+
+# Machine Learning and Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+
+# NLP and Tokenization
+tiktoken>=0.5.0
+transformers>=4.30.0
+tokenizers>=0.13.0
+datasets>=2.12.0
+
+# Web Framework (Backend)
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+starlette>=0.27.0
+httpx>=0.24.0
+
+# Data Processing
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Jupyter and Interactive Development
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipykernel>=6.25.0
+ipython>=8.12.0
+ipywidgets>=8.0.0
+notebook>=7.0.0
+nbformat>=5.9.0
+jupyterlab-git>=0.41.0
+
+# Development Tools
+black>=23.0.0
+flake8>=6.0.0
+pylint>=3.0.0
+autopep8>=2.0.0
+mypy-extensions>=1.0.0
+isort>=5.12.0
+rope>=1.9.0
+
+# Testing
+pytest>=7.4.0
+
+# Utilities
+python-dateutil>=2.8.0
+tqdm>=4.65.0
+pillow>=10.0.0
+requests>=2.31.0
+pyyaml>=6.0.0
+python-lsp-server>=1.7.0
+python-lsp-jsonrpc>=1.1.0
+
+# Visualization
+plotly>=5.14.0
+altair>=5.0.0
+streamlit>=1.24.0
+
+# Code formatting
+yapf>=0.40.0
+pycodestyle>=2.11.0
+pydocstyle>=6.3.0
+
+# Additional utilities
+typer-slim>=0.12.0
+rich>=13.0.0
+click>=8.1.0
+gitpython>=3.1.0
+watchdog>=3.0.0
+
+# Optional: Google Colab support (only needed if training on Colab)
+# Uncomment the line below if using Google Colab:
+# google-colab
+
+# Note: Some packages may have system-specific dependencies.
+# If you encounter installation issues, refer to the official guides:
+# - PyTorch: https://pytorch.org/get-started/locally/
+# - Transformers: https://huggingface.co/docs/transformers/installation
+# - CUDA support: Install PyTorch with CUDA following PyTorch official guide
+

@@ -1,0 +1,10 @@
+column_name,description,type,example
+checkpoint,Source checkpoint filename,string,ckpt_100.pt
+block,Transformer block index (0-based),int,3
+neuron,MLP hidden neuron index within block (0-based),int,512
+fc_l2,L2 norm of `c_fc` row weights (input magnitude),float,4.213
+fc_max_abs,Maximum absolute weight in `c_fc` row (strongest single input),float,0.121
+proj_l2,L2 norm of `c_proj` column weights (output magnitude),float,3.002
+top_in_dims,Comma-separated indices of top-K input dims (from `c_fc` row),list[int],2,77,101,199,33
+top_out_dims,Comma-separated indices of top-K output dims (from `c_proj` column),list[int],12,34,88,120,201
+neighbors_input,Pipe-separated neighbors via shared top-K input dims; each entry is block:neuron:shared_count,string,"3:498:3|3:255:2"

@@ -1,0 +1,10 @@
+column_name,description,type,example
+checkpoint,Source checkpoint filename,string,ckpt_100.pt
+head,Attention head index (0-based),int,2
+neuron,Neuron index within head (0-based),int,17
+encoder_l2,L2 norm of encoder weights for this neuron over input dims (measure of input weight magnitude),float,3.421
+encoder_max_abs,Maximum absolute encoder weight over input dims (strongest single input),float,0.097
+decoder_l2,L2 norm of decoder weights for this neuron over output dims (measure of output weight magnitude),float,2.865
+top_in_dims,Comma-separated list of top-K input dimension indices (highest |encoder| weights),list[int],12,45,203,7,88
+top_out_dims,Comma-separated list of top-K output dimension indices (highest |decoder| weights),list[int],5,33,144,200,11
+neighbors_input,Pipe-separated neighbors inferred via shared top-K input dims; each entry is head:neuron:shared_count,string,"2:19:3|2:41:2"

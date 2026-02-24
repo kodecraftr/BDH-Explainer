@@ -110,8 +110,9 @@ Thumbs.db
 *.db
 
 ## BDH-visualizer project ignores
-BDH-visualizer/node_modules/
-BDH-visualizer/.next/
+BDH-visualizer/Frontend/node_modules/
+BDH-visualizer/Frontend/.next/
 BDH-visualizer/.vercel/
 BDH-visualizer/.cache/
-
+BDH-visualizer/.vscode/
+BDH-visualizer/Data/infer
