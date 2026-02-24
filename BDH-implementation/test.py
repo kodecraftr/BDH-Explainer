@@ -1,5 +1,5 @@
 """
-Test script for TaDiff-DiT architecture.
+Test script for DIT-BDH architecture.
 
 This script verifies that the DiT architecture:
 1. Correctly handles input/output dimensions
