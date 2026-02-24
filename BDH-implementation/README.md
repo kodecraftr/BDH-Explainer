@@ -220,15 +220,15 @@ The model evaluates its longitudinal predictions across two critical clinical di
 
 Integrating Baby Dragon Hatchling into a medical diffusion pipeline surfaces a clear gap between architectural promise and practical inference behavior — and shows exactly what it takes to close it.
 
-# Sparse Linear Attention Is the Real Strength
+### Sparse Linear Attention Is the Real Strength
 
 The bdh.py implementation's core contribution is Sparse Linear Attention with 128× internal expansion, achieving O(N) scaling that makes high-resolution 3D MRI diffusion tractable under realistic GPU memory constraints. This is where BDH genuinely delivers
 
-# SEAL Extends BDH Into Adaptive Territory
+### SEAL Extends BDH Into Adaptive Territory
 
 BDH's architecture is designed with working memory and synaptic plasticity in mind. We build on this foundation by integrating SEAL (Self-Adapting Learning), which adds a Hebbian memory layer that enables patient-specific adaptation during iterative diffusion denoising — pushing BDH's capabilities into dynamic, inference-time learning.
 
-# From Sparsity to Full Anatomical Consistency
+### From Sparsity to Full Anatomical Consistency
 
 BDH's sparse attention provides strong efficiency and denoising performance. SEAL extends this further by enforcing multi-modal consistency across T1c, FLAIR, and T2 sequences, grounding tumor boundary predictions in anatomical logic and elevating the overall quality of 3D medical image synthesis
 
