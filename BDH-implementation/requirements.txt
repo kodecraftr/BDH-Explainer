@@ -1,4 +1,4 @@
-# TaDiff-DiT Requirements
+# DIT-BDH Requirements
 # Core dependencies for training on SAILOR dataset
 
 # PyTorch (install separately based on your CUDA version)
