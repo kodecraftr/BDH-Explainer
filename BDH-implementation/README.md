@@ -34,9 +34,9 @@ Before executing the code, please download the following three files and place t
 
 | File Name | Download Link | Destination Path |
 | :--- | :--- | :--- |
-| `[File 1 Name, e.g., model_weights.pt]` | [Download Here](Insert_Google_Drive_Link_1) | `[e.g., ./models/weights/]` |
-| `[File 2 Name, e.g., tokenizer.json]` | [Download Here](Insert_Google_Drive_Link_2) | `[e.g., ./models/tokenizer/]` |
-| `[File 3 Name, e.g., dataset.csv]` | [Download Here](Insert_Google_Drive_Link_3) | `[e.g., ./data/raw/]` |
+| `logs` | [Download Here](https://drive.google.com/drive/folders/1Ep1H8V7LfOQjbx2kZQ5SccMCER4gNvJ7) | `BDH-Explainer/BDH-implementation/` |
+| `inference_npy` | [Download Here](https://drive.google.com/drive/folders/1ySYWy8tMg8TSjOmhA30yQIX0v0ZIW9md) | `BDH-Explainer/BDH-implementation/data/` |
+| `sailor_npy` | [Download Here](https://drive.google.com/drive/folders/1CYIztxcB2ApVmGQOfrpTVJwIFmITpzML) | `BDH-Explainer/BDH-implementation/data/` |
 
 
 https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
