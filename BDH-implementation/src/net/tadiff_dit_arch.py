@@ -1,15 +1,4 @@
-"""
-TaDiff-DiT: Treatment-aware Diffusion Transformer Architecture
-CORRECTED VERSION
 
-Key Fixes Applied:
-1. BDH Attention: ELU+1 instead of ReLU, correct normalization
-2. FinalLayer: Xavier initialization instead of zeros
-3. HybridPatchEmbed: CNN stem for spatial locality
-4. Proper weight initialization throughout
-
-Author: TaDiff-Net Project (Corrected)
-"""
 
 from abc import abstractmethod
 import math
@@ -102,12 +91,12 @@ def unpatchify(x: th.Tensor, patch_size: int, height: int, width: int, out_chann
 
 
 # =============================================================================
-# FIXED: Hybrid Patch Embedding with CNN Stem
+#  Hybrid Patch Embedding with CNN Stem
 # =============================================================================
 
 class HybridPatchEmbed(nn.Module):
     """
-    FIXED: Convolutional stem before patching to preserve local structure.
+     Convolutional stem before patching to preserve local structure.
     
     The pure ViT-style patching loses spatial locality which is critical
     for medical image reconstruction. This CNN stem captures local features
@@ -170,13 +159,13 @@ class HybridPatchEmbed(nn.Module):
         
         self.stem = nn.Sequential(*layers)
         
-        # FIXED: Proper weight initialization
+        
         self._init_weights()
     
     def _init_weights(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                # FIXED: Xavier/Kaiming initialization instead of default
+                #  Xavier/Kaiming initialization instead of default
                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
@@ -233,7 +222,7 @@ class PatchEmbed(nn.Module):
             bias=bias
         )
         
-        # FIXED: Proper initialization
+        
         nn.init.xavier_uniform_(self.proj.weight.view(self.proj.weight.shape[0], -1))
         if bias:
             nn.init.zeros_(self.proj.bias)
@@ -289,18 +278,12 @@ class SinusoidalPositionEmbeddings(nn.Module):
 
 
 # =============================================================================
-# FIXED: BDH Attention with ELU+1 and Correct Normalization
+#  BDH Attention with ELU+1  Normalization
 # =============================================================================
 
 class BDH_Attention(nn.Module):
     """
-    Baby Dragon Hatchling (BDH) Linear Attention - CORRECTED VERSION
-    
-    FIXES APPLIED:
-    1. Changed ReLU to ELU+1 for positivity without dead neurons
-    2. Fixed normalization: Output = (Q @ (K^T @ V)) / (Q @ K_sum)
-    3. Added proper scaling for numerical stability
-    4. Correct einsum operations
+    Baby Dragon Hatchling (BDH) Linear Attention 
     
     Linear Attention achieves O(N) complexity instead of O(N²) by computing
     K^T @ V first (associative property).
@@ -331,7 +314,7 @@ class BDH_Attention(nn.Module):
         self.expanded_dim = dim * expansion_factor
         self.expanded_head_dim = self.expanded_dim // num_heads
         
-        # FIXED: Scaling factor for numerical stability
+        #  Scaling factor for numerical stability
         self.scale = self.expanded_head_dim ** -0.5
         
         # Projections
@@ -342,11 +325,11 @@ class BDH_Attention(nn.Module):
         self.out_proj = nn.Linear(self.expanded_dim, dim, bias=qkv_bias)
         self.proj_drop = nn.Dropout(proj_drop)
         
-        # FIXED: Proper weight initialization
+        #  Proper weight initialization
         self._init_weights()
     
     def _init_weights(self):
-        # FIXED: Xavier initialization for all projections
+        #  Xavier initialization for all projections
         nn.init.xavier_uniform_(self.q_proj.weight)
         nn.init.xavier_uniform_(self.k_proj.weight)
         nn.init.xavier_uniform_(self.v_proj.weight)
@@ -360,9 +343,8 @@ class BDH_Attention(nn.Module):
     
     def _feature_map(self, x: th.Tensor) -> th.Tensor:
         """
-        FIXED: ELU + 1 feature map instead of ReLU.
+         ELU + 1 feature map instead of ReLU.
         
-        Why this matters:
         - ReLU creates "dead neurons" (outputs exactly 0 for negative inputs)
         - When Q or K rows are all zeros, division by zero occurs
         - ELU + 1 is always positive (range: (0, ∞)) with smooth gradients
@@ -387,7 +369,7 @@ class BDH_Attention(nn.Module):
         k = self.k_proj(x)
         v = self.v_proj(x)
         
-        # FIXED: Apply ELU+1 feature map for positivity
+        # Apply ELU+1 feature map for positivity
         q = self._feature_map(q)
         k = self._feature_map(k)
         
@@ -401,12 +383,11 @@ class BDH_Attention(nn.Module):
         q = q * self.scale
         
         # =================================================================
-        # FIXED: Linear Attention with correct normalization
+        #  Linear Attention with normalization
         # =================================================================
         
         # Step 1: Compute K^T @ V (the "memory" matrix)
-        # [B, H, N, D] @ [B, H, D, N] would be O(N²) - WRONG ORDER
-        # [B, H, D, N]^T @ [B, H, N, D] -> [B, H, D, D] - CORRECT ORDER (O(N))
+        # [B, H, D, N]^T @ [B, H, N, D] -> [B, H, D, D] - (O(N))
         # Using einsum: 'bhnd,bhne->bhde' means K^T @ V
         kv = th.einsum('bhnd,bhne->bhde', k, v)  # [B, H, D, D]
         
@@ -414,7 +395,7 @@ class BDH_Attention(nn.Module):
         # [B, H, N, D] @ [B, H, D, D] -> [B, H, N, D]
         qkv = th.einsum('bhnd,bhde->bhne', q, kv)  # [B, H, N, D]
         
-        # Step 3: FIXED: Correct normalization
+        # Step 3:  normalization
         # Denominator: sum of K over sequence dimension, then dot with Q
         # k_sum: [B, H, D] (sum over N dimension)
         k_sum = k.sum(dim=2)  # [B, H, D]
@@ -423,7 +404,7 @@ class BDH_Attention(nn.Module):
         # Each query position gets normalized by its dot product with the sum of all keys
         normalizer = th.einsum('bhnd,bhd->bhn', q, k_sum)  # [B, H, N]
         
-        # FIXED: Clamp for numerical stability (prevent division by zero)
+        # Clamp for numerical stability (prevent division by zero)
         normalizer = normalizer.unsqueeze(-1).clamp(min=1e-6)  # [B, H, N, 1]
         
         # Normalize
@@ -463,7 +444,7 @@ class MLP(nn.Module):
         self.fc2 = nn.Linear(hidden_features, out_features)
         self.drop = nn.Dropout(drop)
         
-        # FIXED: Proper initialization
+        # initialization
         nn.init.xavier_uniform_(self.fc1.weight)
         nn.init.xavier_uniform_(self.fc2.weight)
         nn.init.zeros_(self.fc1.bias)
@@ -507,7 +488,7 @@ class DiTBlock(nn.Module):
         self.norm1 = nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6)
         self.norm2 = nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6)
         
-        # FIXED: Using corrected BDH Attention
+        # Using  BDH Attention
         self.attn = BDH_Attention(
             dim=hidden_size,
             num_heads=num_heads,
@@ -531,14 +512,10 @@ class DiTBlock(nn.Module):
             nn.Linear(condition_dim, 6 * hidden_size, bias=True)
         )
         
-        # FIXED: Initialize adaLN weights to zero for stability
+        #Initialize adaLN weights to zero for stability
         nn.init.zeros_(self.adaLN_modulation[-1].weight)
         
-        # CRITICAL FIX: Initialize biases so that:
-        # - shift1, shift2 = 0 (no shift initially)
-        # - scale1, scale2 = 0 (since modulate does x * (1 + scale), scale=0 means multiply by 1)
-        # - gate1, gate2 = 1 (gates MUST be 1 to allow gradient flow!)
-        # Bias layout: [shift1, scale1, gate1, shift2, scale2, gate2] each of size hidden_size
+        
         bias = th.zeros(6 * hidden_size)
         # Set gate1 (positions 2*hidden_size to 3*hidden_size) to 1.0
         bias[2 * hidden_size : 3 * hidden_size] = 1.0
@@ -570,14 +547,14 @@ class DiTBlock(nn.Module):
 
 
 # =============================================================================
-# FIXED: Final Layer with Proper Initialization
+# Final Layer 
 # =============================================================================
 
 class FinalLayer(nn.Module):
     """
     Final layer that converts transformer output back to image space.
     
-    FIXED: Uses Xavier initialization instead of zeros for the projection weight.
+    
     """
     
     def __init__(
@@ -600,13 +577,11 @@ class FinalLayer(nn.Module):
         
         self.proj = nn.Linear(hidden_size, patch_size ** 2 * out_channels, bias=True)
         
-        # FIXED: adaLN initialized to identity (zeros is correct here)
+        
         nn.init.zeros_(self.adaLN_modulation[-1].weight)
         nn.init.zeros_(self.adaLN_modulation[-1].bias)
         
-        # FIXED: Output projection uses XAVIER initialization with proper gain
-        # gain=0.02 was 50x too small, causing vanishing initial outputs
-        # Standard gain for linear layers is 1.0 (or sqrt(2) for ReLU)
+        
         nn.init.xavier_uniform_(self.proj.weight, gain=1.0)
         nn.init.zeros_(self.proj.bias)  # Bias can be zero
     
@@ -621,14 +596,14 @@ class FinalLayer(nn.Module):
 
 
 # =============================================================================
-# Main TaDiff-DiT Model
+# Main DIT-BDH Model
 # =============================================================================
 
 class TaDiff_DiT(nn.Module):
     """
-    Treatment-aware Diffusion Transformer with BDH Attention - CORRECTED VERSION
+    Treatment-aware Diffusion Transformer with BDH Attention 
     
-    Fixes applied:
+    
     1. HybridPatchEmbed: CNN stem for spatial locality
     2. BDH_Attention: ELU+1 activation, correct normalization
     3. FinalLayer: Xavier initialization
@@ -713,21 +688,14 @@ class TaDiff_DiT(nn.Module):
             nn.Linear(self.all_time_day_dim, hidden_size),
         )
         
-        # =================================================================
-        # CRITICAL FIX: Direct timestep → conditioning projection
-        # =================================================================
-        # Without this, the diffusion timestep is buried inside 1 of 4 slots
-        # in the conditioning vector and must be disentangled by a single
-        # linear layer. This severely dilutes the noise-level signal that
-        # the model needs to predict the correct amount of noise at each t.
-        # Standard DiT adds the timestep embedding directly to the condition.
+       
         self.time_to_cond = nn.Sequential(
             nn.SiLU(),
             nn.Linear(model_channels, hidden_size),
         )
         
         # =================================================================
-        # FIXED: Patch Embedding (use hybrid by default)
+        #  Patch Embedding (use hybrid by default)
         # =================================================================
         
         if use_hybrid_embed:
@@ -751,7 +719,7 @@ class TaDiff_DiT(nn.Module):
         )
         
         # =================================================================
-        # Transformer Blocks (with corrected BDH)
+        # Transformer Blocks (with BDH)
         # =================================================================
         
         self.blocks = nn.ModuleList([
@@ -768,9 +736,7 @@ class TaDiff_DiT(nn.Module):
             for _ in range(depth)
         ])
         
-        # =================================================================
-        # FIXED: Final Layer with proper initialization
-        # =================================================================
+        
         
         self.final_layer = FinalLayer(
             hidden_size=hidden_size,
@@ -780,7 +746,7 @@ class TaDiff_DiT(nn.Module):
         )
         
         # =================================================================
-        # CRITICAL FIX: Skip Connection CNN Branch
+        #  Skip Connection CNN Branch
         # =================================================================
         # The transformer is good at global attention but lacks direct
         # pixel-to-pixel correspondence needed for noise prediction.
@@ -812,7 +778,7 @@ class TaDiff_DiT(nn.Module):
         
         def _basic_init(module):
             if isinstance(module, nn.Linear):
-                # FIXED: Xavier uniform for linear layers
+                # Xavier uniform for linear layers
                 nn.init.xavier_uniform_(module.weight)
                 if module.bias is not None:
                     nn.init.zeros_(module.bias)
@@ -831,9 +797,7 @@ class TaDiff_DiT(nn.Module):
                     if layer.bias is not None:
                         nn.init.zeros_(layer.bias)
         
-        # FIX: Problem 3.2 — Re-apply zero-init to adaLN modulation layers
-        # These MUST be zeros for identity initialization (DiT paper requirement)
-        # The _basic_init above overwrote them with Xavier, so we must restore zeros
+        
         for block in self.blocks:
             nn.init.zeros_(block.adaLN_modulation[-1].weight)
             nn.init.zeros_(block.adaLN_modulation[-1].bias)
@@ -846,34 +810,19 @@ class TaDiff_DiT(nn.Module):
         nn.init.xavier_uniform_(self.final_layer.proj.weight, gain=1.0)
         nn.init.zeros_(self.final_layer.proj.bias)
         
-        # =================================================================
-        # CRITICAL FIX: Zero-init skip branch output convolution
-        # =================================================================
-        # The skip branch has Kaiming-inited convolutions that produce
-        # non-trivial output at initialization (~0.3 magnitude), while
-        # with a tiny-gain FinalLayer and positive skip_weight init,
-        # the skip branch can dominate early optimization.
-        #
-        # Since the skip branch has NO timestep conditioning, it learns
-        # a noise-level-independent mapping that looks like noise.
-        # The transformer never gets a chance to learn because the skip
-        # branch converges first to a bad local minimum.
-        #
-        # Fix: zero-init the last conv so both branches start at zero.
-        # This matches the DiT paper's zero-init strategy and lets the
-        # transformer and skip branch learn simultaneously.
+        
         nn.init.zeros_(self.skip_branch[-1].weight)
         nn.init.zeros_(self.skip_branch[-1].bias)
     
     def _initialize_gates(self):
         """
-        CRITICAL FIX: Initialize adaLN gates to 1.0 so gradient can flow.
+        Initialize adaLN gates to 1.0 so gradient can flow.
         
         The adaLN modulation outputs [shift1, scale1, gate1, shift2, scale2, gate2].
         - shift and scale should be 0 (identity transform)
         - gate1 and gate2 MUST be 1.0 to allow attention/MLP outputs through
         
-        Without this, the model predicts near-zero and cannot learn.
+        
         """
         for block in self.blocks:
             hidden = block.hidden_size
@@ -940,7 +889,7 @@ class TaDiff_DiT(nn.Module):
         
         # Get target session features
         i_tg_positive = th.where(i_tg < 0, 4 + i_tg, i_tg).long()
-        # FIX: Use consistent indexing for both B==1 and B>1 cases
+        
         # Previous code used tensor indexing which caused shape issues
         target = th.stack([
             treat_day_sum[i, i_tg_positive[i].item(), :] for i in range(B)
@@ -956,15 +905,10 @@ class TaDiff_DiT(nn.Module):
         
         treat_day_diff = treat_day_diff.view(B, -1)  # [B, 4 * model_channels]
         
-        # Project conditioning to hidden size
-        # CRITICAL FIX: Add direct timestep projection so adaLN layers
-        # receive a strong, undiluted noise-level signal at every block.
+        
         condition = self.condition_proj(treat_day_diff) + self.time_to_cond(emb)  # [B, hidden_size]
         
-        # =================================================================
-        # CRITICAL FIX: Compute skip connection BEFORE patchifying
-        # =================================================================
-        # This gives the model a direct pixel-to-pixel path for noise prediction
+        
         x_input = x.type(self.dtype)
         skip_out = self.skip_branch(x_input)  # [B, out_channels, H, W]
         
