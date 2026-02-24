@@ -1,5 +1,5 @@
 """
-TaDiff Model Inference Script - CORRECTED VERSION
+DIT-BDH Inference Script 
 
 Consistent with train.py training pipeline:
 - Same model architecture loading (TaDiffDiTLitModule or TaDiff_DiT)
