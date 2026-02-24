@@ -1,12 +1,5 @@
 """
-Gaussian Diffusion Process for TaDiff-Net
-CORRECTED VERSION - All sampling equations fixed
-
-Key Fixes Applied:
-1. DDIM reverse equation now correctly divides noise term by sqrt(alphabar)
-2. Loop variable shadowing eliminated
-3. Proper tensor device handling
-4. Correct DDPM posterior mean calculation
+Gaussian Diffusion Process for DIT-BDH
 """
 
 import torch
@@ -62,7 +55,6 @@ class GaussianDiffusion:
         self.alpha = 1.0 - self.beta
         self.alphabar = torch.cumprod(self.alpha, dim=0)
         
-        # FIXED: Precompute sqrt values for numerical stability
         self.sqrt_alphabar = torch.sqrt(self.alphabar)
         self.sqrt_one_minus_alphabar = torch.sqrt(1.0 - self.alphabar)
         self.sqrt_recip_alphabar = 1.0 / self.sqrt_alphabar
@@ -97,7 +89,7 @@ class GaussianDiffusion:
             xt: Noisy image at timestep t
             epsilon: The noise that was added
         """
-        # FIXED: Ensure t is on correct device and properly indexed
+        
         t = t.to(x0.device)
         
         # Convert to 0-indexed for array access
@@ -129,12 +121,6 @@ class GaussianDiffusion:
         """
         Predict x_0 from x_t and predicted noise.
         
-        FIXED: Correct equation from DDPM paper:
-        x_0 = (x_t - sqrt(1 - αbar_t) * ε_θ) / sqrt(αbar_t)
-        
-        The WRONG version was:
-        x_0 = (1/sqrt(αbar_t)) * x_t - sqrt(1 - αbar_t) * ε_θ  # MISSING DIVISION!
-        
         Args:
             xt: Noisy image [B, C, H, W]
             t_idx: Timestep indices (0-indexed) [B]
@@ -150,12 +136,9 @@ class GaussianDiffusion:
         sqrt_alphabar = self.sqrt_alphabar[t_idx].to(device).view(B, 1, 1, 1)
         sqrt_one_minus_alphabar = self.sqrt_one_minus_alphabar[t_idx].to(device).view(B, 1, 1, 1)
         
-        # FIXED: Correct x_0 prediction formula with epsilon for numerical stability
-        # x_0 = (x_t - sqrt(1 - αbar_t) * ε) / sqrt(αbar_t)
+        
         x0_pred = (xt - sqrt_one_minus_alphabar * eps_pred) / (sqrt_alphabar + 1e-8)
         
-        # FIX: Problem 4.5 — Clamp to valid range to prevent extreme values at high timesteps
-        # At t=999 with cosine schedule, sqrt(αbar)≈0.00005, amplifying errors by ~20000x
         x0_pred = torch.clamp(x0_pred, -1.0, 1.0)
         
         return x0_pred
@@ -208,11 +191,6 @@ class GaussianDiffusion:
         """
         DDPM-style inverse diffusion for TaDiff.
         
-        FIXED Issues:
-        1. Loop variable shadowing eliminated (use 'timestep' not 't')
-        2. Correct posterior mean calculation
-        3. Proper device handling
-        
         Args:
             net: The denoising network
             x: Input tensor [B, 12, H, W] (4 sessions × 3 modalities)
@@ -254,9 +232,9 @@ class GaussianDiffusion:
         alphabar_weights = self.alphabar[:T_m].to(device)
         w_p = alphabar_weights / alphabar_weights.sum()
         
-        # FIXED: Use different variable name to avoid shadowing
+        
         for timestep in range(start_t, start_t - steps, -1):
-            # FIXED: 0-indexed for array access
+            
             t_idx = timestep - 1
             
             # Get noise schedule values
@@ -275,7 +253,7 @@ class GaussianDiffusion:
                 z = torch.zeros((B, 3, H, W), device=device)
                 beta_tilde = torch.tensor(0.0, device=device)
             
-            # FIXED: Create timestep tensor with DIFFERENT variable name
+            
             t_tensor = torch.full((B,), timestep, device=device, dtype=torch.float32)
             
             # Network forward pass
@@ -295,8 +273,7 @@ class GaussianDiffusion:
                 xt_list.append(x_sessions[b, session_idx])
             xt = torch.stack(xt_list, dim=0)  # [B, 3, H, W]
             
-            # FIXED: Correct x_0 prediction with epsilon for numerical stability
-            # x_0 = (x_t - sqrt(1 - αbar_t) * ε_θ) / sqrt(αbar_t)
+            
             sqrt_alphabar_t = torch.sqrt(alphabar_t)
             sqrt_one_minus_alphabar_t = torch.sqrt(1.0 - alphabar_t)
             
@@ -343,18 +320,6 @@ class GaussianDiffusion:
         """
         DDIM-style deterministic/stochastic inverse diffusion.
         
-        FIXED Issues:
-        1. Correct x_0 prediction: x_0 = (x_t - sqrt(1-αbar_t)*ε) / sqrt(αbar_t)
-        2. Correct DDIM update equation
-        3. No variable shadowing
-        4. Proper device handling
-        
-        DDIM Equation (from Song et al.):
-        x_{t-1} = sqrt(αbar_{t-1}) * x_0_pred 
-                + sqrt(1 - αbar_{t-1} - σ²) * ε_θ(x_t, t)
-                + σ * ε
-        
-        where σ = η * sqrt((1 - αbar_{t-1})/(1 - αbar_t)) * sqrt(1 - αbar_t/αbar_{t-1})
         
         Args:
             net: The denoising network
@@ -386,7 +351,7 @@ class GaussianDiffusion:
         
         i_tg_positive = torch.where(i_tg < 0, 4 + i_tg, i_tg)
         
-        # FIX: Problem 2.3 — Use 1-indexed timesteps to match training
+        
         # Training uses t ∈ [1, T], so inference must too
         times = torch.linspace(self.T, 1, steps + 1, device=device).long()
         time_pairs = list(zip(times[:-1].tolist(), times[1:].tolist()))
@@ -402,7 +367,7 @@ class GaussianDiffusion:
         x0_final = None
         
         for t_curr, t_next in time_pairs:
-            # FIX: Problem 2.3 — Convert 1-indexed timestep to 0-indexed for array access
+            
             t_curr_idx = t_curr - 1
             
             # Get noise schedule values (0-indexed array access)
@@ -423,12 +388,11 @@ class GaussianDiffusion:
             x_sessions = x.view(B, 4, 3, H, W)
             xt = torch.stack([x_sessions[b, i_tg_positive[b].item()] for b in range(B)], dim=0)
             
-            # FIXED: Correct x_0 prediction with epsilon for numerical stability
-            # x_0 = (x_t - sqrt(1 - αbar_t) * ε_θ) / sqrt(αbar_t)
+            
             x0_pred = (xt - sqrt_one_minus_alphabar_t * eps_pred) / (sqrt_alphabar_t + 1e-8)
             x0_pred = torch.clamp(x0_pred, -1.0, 1.0)
             
-            # FIX: Problem 2.3 — Check for t_next >= 1 (1-indexed)
+            
             if t_next >= 1:
                 t_next_idx = t_next - 1  # Convert to 0-indexed for array access
                 alphabar_t_next = self.alphabar[t_next_idx].to(device)
@@ -449,10 +413,7 @@ class GaussianDiffusion:
                     sigma = 0.0
                     noise = 0.0
                 
-                # FIXED: Correct DDIM update equation
-                # x_{t-1} = sqrt(αbar_{t-1}) * x_0_pred 
-                #         + sqrt(1 - αbar_{t-1} - σ²) * ε_θ
-                #         + σ * noise
+                
                 dir_coef = torch.sqrt(torch.clamp(1.0 - alphabar_t_next - sigma**2, min=0.0))
                 
                 x_next = sqrt_alphabar_t_next * x0_pred + dir_coef * eps_pred
@@ -470,7 +431,7 @@ class GaussianDiffusion:
             x = x_sessions.view(B, 12, H, W)
             
             # Accumulate masks (use 0-indexed for weights array)
-            # FIX: Problem 2.3 — Use t_curr_idx for array access
+            
             if t_curr_idx < T_m:
                 mask_accum = mask_accum + mask_pred * w_p[t_curr_idx]
             
