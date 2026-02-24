@@ -37,7 +37,7 @@ BDH-implementation/
 
 ---
 
-## ✨ Key Features & What the Code Actually Implements
+## ✨ Key Features & Key Functionality of the Model
 
 | 🚀 Feature | Implementation (code) | Notes |
 |---|---|---|
@@ -94,12 +94,12 @@ BDH's sparse attention provides strong efficiency and denoising performance. SEA
 
 The following table outlines the prioritized focus areas for BDH's continued development:
 
-| Priority | Focus Area | Key Action Items |
-|---|---|---|
-| 1️⃣ | 🧠 **Clinical Integration (BraTS)** | Build a reproducible preprocessing pipeline (skull-stripping, N4 bias correction, resampling) and patient-wise splits to track core metrics (Dice, HD95, SSIM). |
-| 2️⃣ | ⚡ **Inference Acceleration** | Maximize the O(N) linear attention efficiency on consumer GPUs using FP16 mixed precision (AMP), ONNX quantization, and targeted Triton/CUDA QKV kernel fusion. |
-| 3️⃣ | 🔮 **Uncertainty & Robustness** | Implement Monte Carlo sampling on the reverse diffusion chain for per-pixel variance heatmaps, paired with ComBat intensity harmonization for cross-scanner reliability. |
-| 4️⃣ | 💊 **Targeted Adaptation** | Encode treatment schedules/doses as learnable embeddings, and fine-tune the SEAL adapter specifically on post-operative resection cases using synthetic cavity boundaries. |
+| Priority | Focus Area | Key Action Items | Clinical & Technical Impact |
+|---|---|---|---|
+| 1️⃣ | 🧠 **Clinical Integration (BraTS)** | Build a reproducible preprocessing pipeline (skull-stripping, N4 bias correction, resampling) and patient-wise splits to track core metrics (Dice, HD95, SSIM). | Standardized data would prevent the model from learning scanner artifacts. |
+| 2️⃣ | ⚡ **Inference Acceleration** | Maximize the O(N) linear attention efficiency on consumer GPUs using FP16 mixed precision (AMP), ONNX quantization, and targeted Triton/CUDA QKV kernel fusion. | Optimizations would allow the model to run on standard hospital GPUs. |
+| 3️⃣ | 🔮 **Uncertainty & Robustness** | Implement Monte Carlo sampling on the reverse diffusion chain for per-pixel variance heatmaps, paired with ComBat intensity harmonization for cross-scanner reliability. | Uncertainty heatmaps would flag ambiguous regions for doctors, while harmonization would ensure consistent performance across different hospital MRI machines. |
+| 4️⃣ | 💊 **Targeted Adaptation** | Encode treatment schedules/doses as learnable embeddings, and fine-tune the SEAL adapter specifically on post-operative resection cases using synthetic cavity boundaries. | Treating time/dosage as continuous variables would allow the model to predict treatment trajectories, while training on synthetic surgical cavities would prevent the model from mistaking post-op fluid for recurring tumors. |
 
 ---
 
