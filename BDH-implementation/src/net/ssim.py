@@ -1,7 +1,4 @@
-# copy from https://github.com/VainF/pytorch-msssim/blob/master/pytorch_msssim/ssim.py
 
-# Copyright 2020 by Gongfan Fang, Zhejiang University.
-# All rights reserved.
 import warnings
 
 import torch
