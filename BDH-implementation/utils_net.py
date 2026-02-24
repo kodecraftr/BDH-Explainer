@@ -1,5 +1,5 @@
 """
-Neural Network Utilities for TaDiff - CORRECTED VERSION
+Neural Network Utilities for DIT-BDH
 """
 
 import math
