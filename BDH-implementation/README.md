@@ -195,7 +195,7 @@ Checkpoints and TensorBoard logs are saved to `./logs/<experiment_name>/` (defau
 
 ```bash
 python inference.py \
-    --checkpoint ./logs/tadiff-dit/checkpoints/last.ckpt \
+    --checkpoint ./logs/bdh-net/checkpoints/last.ckpt \
     --data_dir ./data/inference_npy \
     --patient_ids sub-03 sub-04 \
     --output_dir ./inference_results
@@ -205,14 +205,14 @@ Or run on a single patient file:
 
 ```bash
 python inference.py \
-    --checkpoint ./logs/tadiff-dit/checkpoints/last.ckpt \
+    --checkpoint ./logs/bdh-net/checkpoints/last.ckpt \
     --patient_file ./data/inference_npy/sub-03_image.npy \
     --output_dir ./inference_results
 ```
 
 ```bash
 python inference.py \
-    --checkpoint ./logs/tadiff-dit/checkpoints/last.ckpt \
+    --checkpoint ./logs/bdh-net/checkpoints/last.ckpt \
     --patient_file ./data/inference_npy/sub-04_image.npy \
     --output_dir ./inference_results
 ```
