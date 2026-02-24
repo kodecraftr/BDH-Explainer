@@ -1,11 +1,5 @@
 """
-SAILOR Dataset for TaDiff-DiT Training - CORRECTED VERSION
-
-FIXES APPLIED:
-1. Proper data normalization to [-1, 1] range
-2. Correct handling of multi-session data
-3. Fixed slice extraction logic
-4. Proper treatment of edge cases
+SAILOR Dataset for DIT-BDH Training 
 
 Dataset format (per patient):
 - {patient_id}_image.npy: Shape (M×T, H, W, D) - 4 modalities × T sessions
@@ -27,13 +21,8 @@ import torch.nn.functional as F
 
 class SAILORDataset(Dataset):
     """
-    PyTorch Dataset for SAILOR brain tumor MRI data - CORRECTED VERSION
+    PyTorch Dataset for SAILOR brain tumor MRI data 
     
-    FIXES:
-    1. Normalizes images to [-1, 1] range (required for diffusion)
-    2. Proper handling of sessions and modalities
-    3. Correct slice selection with tumor content
-    4. Fixed augmentation that preserves data integrity
     """
     
     # SAILOR modality indices: 0=T1, 1=T1c, 2=FLAIR, 3=T2
