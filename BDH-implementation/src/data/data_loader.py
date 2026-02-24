@@ -1,10 +1,9 @@
 """
-Data loading utilities for TaDiff model.
+Data loading utilities for DIT using BDH model.
 
 Provides MONAI-based data loading pipeline compatible with TaDiff-Net.
 Handles dataset creation, transformations, and data loading operations.
 
-Reference: https://github.com/samleoqh/TaDiff-Net/blob/main/src/data/data_loader.py
 """
 import os
 from typing import List, Dict, Optional, Tuple
