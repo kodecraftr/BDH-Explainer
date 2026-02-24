@@ -226,14 +226,6 @@ Plugging the Baby Dragon Hatchling (BDH) architecture into a medical diffusion p
 
 BDH is designed to make high-fidelity tumor tracking and longitudinal medical predictions feasible on consumer-grade GPUs. By replacing standard quadratic attention with sparse linear attention, it efficiently handles massive 3D MRI volumes (e.g., 256×256×155) without sacrificing representational capacity.
 
-### ⚠️ What Is Not Implemented (and Corrections)
-
-- The attention feature map used by the BDH block is `ELU(x)+1` (see `LinearSelfAttention.feature_map`). There is no ReLU-based "128× internal expansion gating" in the attention implementation. Any statement that asserts a specific ReLU gating mechanism or a fixed 128× expansion is not supported by the code.
-- Rotary positional embeddings (RoPE) are not present in the current codebase. Positional and temporal conditioning is handled via the convolutional stem, `timestep_embedding`, and Fourier-style features where used — not RoPE.
-- There is no explicit "Hebbian" x_sparse · y_sparse learning rule implemented; you should remove claims that the model explicitly uses Hebbian updates. The code uses standard tensor operations and learned projections inside attention/MLP blocks.
-
-In short: the repository implements a practical linear-attention variant (ELU+1 feature-map), a CNN-based patch embedding, conditioning embeddings, and a SEAL adapter. The stronger biological framings (e.g., explicit Hebbian rules, RoPE integration, or a fixed ReLU 128× gating mechanism) are not present and have been removed from the documentation.
-
 ---
 
 ## 🔭 Future Scope
@@ -246,42 +238,6 @@ The following table outlines the prioritized focus areas for BDH's continued dev
 | 2️⃣ | ⚡ **Inference Acceleration** | Maximize the O(N) linear attention efficiency on consumer GPUs using FP16 mixed precision (AMP), ONNX quantization, and targeted Triton/CUDA QKV kernel fusion. |
 | 3️⃣ | 🔮 **Uncertainty & Robustness** | Implement Monte Carlo sampling on the reverse diffusion chain for per-pixel variance heatmaps, paired with ComBat intensity harmonization for cross-scanner reliability. |
 | 4️⃣ | 💊 **Targeted Adaptation** | Encode treatment schedules/doses as learnable embeddings, and fine-tune the SEAL adapter specifically on post-operative resection cases using synthetic cavity boundaries. |
-
----
-
-## 🔮 Practical, Short-Term Roadmap (Feasible Next Steps)
-
-This roadmap avoids moonshots and focuses on practical experiments that can be executed with the existing codebase and standard clinical datasets.
-
-1) **Integrate and validate on BraTS longitudinal cases**
-    - Prepare preprocessing pipeline: resampling to common voxel spacing, skull-stripping, N4 bias-field correction, z-score intensity normalization, and optional histogram matching.
-    - Add loader for BraTS longitudinal pairs and create reproducible Train/Val/Test splits (patient-wise split). Use the provided `data/preproc_prepare_data.py` as a template.
-    - Metrics to report: Dice, HD95, SSIM, PSNR, MAE. Log per-scan and cohort statistics.
-
-2) **Robustness across scanners and harmonization**
-    - Implement intensity harmonization (ComBat or histogram matching) and scanner-vendor covariate tracking in metadata.
-    - Run ablations: (a) with harmonization, (b) without, (c) augmentation-heavy training. Quantify performance drop on out-of-distribution vendors.
-
-3) **Uncertainty quantification (practical approach)**
-    - Implement Monte Carlo sampling from the reverse diffusion chain (N stochastic samplings) and compute per-pixel variance maps as uncertainty heatmaps.
-    - Optionally add small ensembles (2–4 checkpoints) for improved calibration. Evaluate calibration via ECE/Brier score and visualize reliability diagrams.
-
-4) **SEAL adapter — targeted refinement for post-operative cases**
-    - Curate a small dataset of post-resection cases (or synthesize cavities by masking) and fine-tune SEALAdapter on these samples with self-consistency thresholds tightened.
-    - Add synthetic augmentation that simulates cavities and resection boundaries to improve robustness before larger clinical fine-tuning.
-
-5) **Inference and engineering improvements (measurable wins)**
-    - Baseline: measure current throughput (images/sec) and peak GPU memory for a representative batch/scan.
-    - Apply FP16 mixed precision (via AMP) and measure gains. Then try dynamic quantization or ONNX static quantization for CPU inference.
-    - If further speedup is required, consider fusing QKV+projection kernels for the linear-attention block (Triton or custom CUDA kernels) — but only after profiling shows the attention path is the bottleneck.
-
-6) **Treatment conditioning — pragmatic implementation path**
-    - Encode treatment schedules/doses as a small learnable embedding vector concatenated into the existing conditioning vector (already supported by the model API). Run ablation experiments to test whether conditioning improves predictive fidelity vs. unconditioned baselines.
-
-7) **Clinical validation path (short-term)**
-    - Run retrospective evaluation on held-out cases and produce per-patient reports. Prepare anonymized case sets for a small reader study (3–5 radiologists) to evaluate clinical plausibility before any deployment discussion.
-
-Each step above is actionable with the current repository: the model accepts treatment/day conditioning, has a SEAL adapter, and implements linear-attention. The missing pieces are dataset-specific preprocessing, harmonization modules, uncertainty-sampling wrappers (sampling the reverse chain), and lightweight inference engineering — all feasible next pull requests or issues.
 
 ---
 
