@@ -168,6 +168,8 @@ pip install -r requirements.txt
 
 ### 4. Prepare the Dataset
 
+We have pre-processed data for training in sailor_npy and that for inference in inference_npy (the process for getting them is mentioned above).
+Otherwise :
 Place your raw SAILOR NIfTI data and run the preprocessing script to convert it into `.npy` format:
 
 ```bash
@@ -177,7 +179,8 @@ python data/preproc_prepare_data.py \
 ```
 
 ### 5. Train the Model
-
+We have trained weights for the model in logs (the process for getting them is mentioned above), which can be directly used.
+Otherwise : 
 ```bash
 python train.py --data_dir ./data/sailor_npy
 ```
