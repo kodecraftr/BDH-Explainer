@@ -27,7 +27,11 @@ BDH-implementation/
 └── requirements.txt        # Python dependencies
 ```
 
-https://github.com/user-attachments/assets/5064e386-4bf0-4e79-8e7e-84156b5f5b1d
+
+
+https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
+
+
 
 ## Model Architecture & Diffusion Pipeline
 
