@@ -25,6 +25,13 @@ BDH-implementation/
 ├── utils_net.py            # Core neural network utilities
 └── requirements.txt        # Python dependencies
 ```
+
+
+
+https://github.com/user-attachments/assets/5064e386-4bf0-4e79-8e7e-84156b5f5b1d
+
+
+
 ## 🧠 Model Architecture & Diffusion Pipeline
 
 > **TaDiff-DiT**: A Treatment-Aware Diffusion Transformer that replaces traditional quadratic self-attention with **BDH (Baby Dragon Hatchling) Linear Attention**, enabling O(N) complexity for longitudinal brain tumor MRI prediction.
