@@ -1,5 +1,5 @@
 """
-Connected Test Pipeline for TaDiff Model.
+Test Pipeline for DIT-BDH Model.
 
 This module provides the complete testing pipeline connecting:
 - Data preprocessing (preproc_prepare_data.py)
@@ -7,8 +7,6 @@ This module provides the complete testing pipeline connecting:
 - Model configuration (test_config.py)
 - Evaluation and visualization
 
-Compatible with TaDiff-Net pipeline structure.
-Reference: https://github.com/samleoqh/TaDiff-Net/blob/main/test.py
 """
 
 import os
