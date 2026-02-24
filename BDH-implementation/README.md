@@ -216,15 +216,21 @@ The model evaluates its longitudinal predictions across two critical clinical di
 
 ---
 
-## 🧠 What Does This Tell Us About BDH?
+## 🧠 What Insights Does Our Project Reveal About BDH?
 
-Plugging the Baby Dragon Hatchling (BDH) architecture into a medical diffusion pipeline turns out to be a reasonable proof-of-concept for whether sparse attention can actually hold up in high-resolution volumetric settings.
+Integrating Baby Dragon Hatchling into a medical diffusion pipeline surfaces a clear gap between architectural promise and practical inference behavior — and shows exactly what it takes to close it.
 
-> 💡 **TL;DR** — BDH demonstrates that biologically-inspired sparse attention is not just a theoretical curiosity; it's a practical backbone for clinically-demanding generative tasks.
+# Sparse Linear Attention Is the Real Strength
 
-### 🐉 Architecture & Scope
+The bdh.py implementation's core contribution is Sparse Linear Attention with 128× internal expansion, achieving O(N) scaling that makes high-resolution 3D MRI diffusion tractable under realistic GPU memory constraints. This is where BDH genuinely delivers
 
-BDH is designed to make high-fidelity tumor tracking and longitudinal medical predictions feasible on consumer-grade GPUs. By replacing standard quadratic attention with sparse linear attention, it efficiently handles massive 3D MRI volumes (e.g., 256×256×155) without sacrificing representational capacity.
+# SEAL Extends BDH Into Adaptive Territory
+
+BDH's architecture is designed with working memory and synaptic plasticity in mind. We build on this foundation by integrating SEAL (Self-Adapting Learning), which adds a Hebbian memory layer that enables patient-specific adaptation during iterative diffusion denoising — pushing BDH's capabilities into dynamic, inference-time learning.
+
+# From Sparsity to Full Anatomical Consistency
+
+BDH's sparse attention provides strong efficiency and denoising performance. SEAL extends this further by enforcing multi-modal consistency across T1c, FLAIR, and T2 sequences, grounding tumor boundary predictions in anatomical logic and elevating the overall quality of 3D medical image synthesis
 
 ---
 
