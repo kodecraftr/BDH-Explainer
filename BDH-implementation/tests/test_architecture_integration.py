@@ -1,5 +1,5 @@
 """
-Comprehensive Architecture Integration Tests for TaDiff-DiT
+Comprehensive Architecture Integration Tests for DIT-BDH
 
 This test suite performs rigorous testing of:
 1. Dimensional consistency throughout the pipeline
