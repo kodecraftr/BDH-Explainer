@@ -4,7 +4,7 @@ BDH-Diffusion is a generative framework for predicting longitudinal brain tumor 
 
 The result is linear scaling, letting the model handle full volumetric data without the usual computational overhead.
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 BDH-implementation/
@@ -32,35 +32,35 @@ https://github.com/user-attachments/assets/5064e386-4bf0-4e79-8e7e-84156b5f5b1d
 
 
 
-## 🧠 Model Architecture & Diffusion Pipeline
+## Model Architecture & Diffusion Pipeline
 
 > **TaDiff-DiT**: A Treatment-Aware Diffusion Transformer that replaces traditional quadratic self-attention with **BDH (Baby Dragon Hatchling) Linear Attention**, enabling O(N) complexity for longitudinal brain tumor MRI prediction.
 
 ---
 
-### 🔀 End-to-End Execution Flowchart
+### End-to-End Execution Flowchart
 
 ![architecture](data/architecture.png)
 
 ---
 
-## ✨ Key Features & Key Functionality of the Model
+## Key Features & Key Functionality of the Model
 
-| 🚀 Feature | Implementation (code) | Notes |
+| Feature | Implementation (code) | Notes |
 |---|---|---|
-| **🐉 BDH Linear Attention** | Implements an O(N) linear self-attention in `src/net/utils.py` (`LinearSelfAttention`) using a feature map φ(x)=ELU(x)+1 and a K^T·V-first formulation. The `bdh_expansion` factor is configurable (commonly 2 in `config/cfg_tadiff_net.py`). | The bdh.py implementation's core contribution is Sparse Linear Attention with 128× internal expansion, achieving O(N) scaling that reduces peak memory compared to standard softmax attention for long sequences. Numerical stability is maintained through normalizer clamping, making high-resolution 3D MRI diffusion tractable under realistic GPU memory constraints. |
-| **🧬 Hybrid CNN Stem** | `HybridPatchEmbed` (in `src/net/tadiff_dit_arch.py`) builds a convolutional stem before patching. | Preserves local spatial features prior to tokenization; useful for medical images where locality matters. |
-| **🎛 Conditioning Inputs** | The model accepts timestep, session-day, and treatment vectors (see `train.py` and `tadiff_model.py`). Embeddings and modulation utilities exist (`timestep_embedding`, `modulate`). | Conditioning is supported; the exact per-block modulation strategy is configurable in the architecture. |
-| **🔁 Joint Image + Segmentation Support** | Training code (`train.py`, `tadiff_model.py`) uses multiple output channels and mixes diffusion/image losses with auxiliary segmentation losses (Dice/BCE/SSIM/L1/Charbonnier/TV). | The number of image/mask channels is configurable via `out_channels` and loss weights. Avoid hard-coded assertions like "3 image channels + 4 masks" unless you lock `out_channels` to that value. |
-| **🛡️ SEAL Adapter (Test-Time Adaptation)** | `src/net/seal_adapter.py` provides a SEALAdapter for test-time training with self-consistency checks (SSIM + variance) and limited steps of adaptation. | This is a practical mechanism for per-scan adaptation; it is included and usable as-is. |
+| **BDH Linear Attention** | Implements an O(N) linear self-attention in `src/net/utils.py` (`LinearSelfAttention`) using a feature map φ(x)=ELU(x)+1 and a K^T·V-first formulation. The `bdh_expansion` factor is configurable (commonly 2 in `config/cfg_tadiff_net.py`). | The bdh.py implementation's core contribution is Sparse Linear Attention with 128× internal expansion, achieving O(N) scaling that reduces peak memory compared to standard softmax attention for long sequences. Numerical stability is maintained through normalizer clamping, making high-resolution 3D MRI diffusion tractable under realistic GPU memory constraints. |
+| **Hybrid CNN Stem** | `HybridPatchEmbed` (in `src/net/tadiff_dit_arch.py`) builds a convolutional stem before patching. | Preserves local spatial features prior to tokenization; useful for medical images where locality matters. |
+| **Conditioning Inputs** | The model accepts timestep, session-day, and treatment vectors (see `train.py` and `tadiff_model.py`). Embeddings and modulation utilities exist (`timestep_embedding`, `modulate`). | Conditioning is supported; the exact per-block modulation strategy is configurable in the architecture. |
+| **Joint Image + Segmentation Support** | Training code (`train.py`, `tadiff_model.py`) uses multiple output channels and mixes diffusion/image losses with auxiliary segmentation losses (Dice/BCE/SSIM/L1/Charbonnier/TV). | The number of image/mask channels is configurable via `out_channels` and loss weights. Avoid hard-coded assertions like "3 image channels + 4 masks" unless you lock `out_channels` to that value. |
+| **SEAL Adapter (Test-Time Adaptation)** | `src/net/seal_adapter.py` provides a SEALAdapter for test-time training with self-consistency checks (SSIM + variance) and limited steps of adaptation. | This is a practical mechanism for per-scan adaptation; it is included and usable as-is. |
 
 ---
 
-### 📏 Evaluation Metrics
+### Evaluation Metrics
 
 The model evaluates its longitudinal predictions across two critical clinical dimensions: **Image Reconstruction Quality** and **Tumor Segmentation Accuracy**.
 
-#### 🖼️ Image Quality Metrics
+#### Image Quality Metrics
 
 | Metric | Target | Purpose |
 | --- | --- | --- |
@@ -68,7 +68,7 @@ The model evaluates its longitudinal predictions across two critical clinical di
 | **PSNR** | ↑ Higher | Evaluates signal fidelity (higher dB means reconstruction error is minimal relative to the signal). |
 | **MAE** | ↓ Lower | Calculates the average pixel-level intensity deviation. |
 
-#### 🎯 Tumor Segmentation Metrics
+#### Tumor Segmentation Metrics
 
 *These are evaluated across three confidence thresholds: `0.25` (lenient), `0.50` (standard), and `0.75` (strict).* 
 
@@ -79,7 +79,7 @@ The model evaluates its longitudinal predictions across two critical clinical di
 
 ---
 
-## 🧠 What Insights Does Our Project Reveal About BDH?
+## What Insights Does Our Project Reveal About BDH?
 
 Integrating Baby Dragon Hatchling into a medical diffusion pipeline surfaces a clear gap between architectural promise and practical inference behavior — and shows exactly what it takes to close it.
 
@@ -97,20 +97,20 @@ BDH's sparse attention provides strong efficiency and denoising performance. SEA
 
 ---
 
-## 🔭 Future Scope
+## Future Scope
 
 The following table outlines the prioritized focus areas for BDH's continued development:
 
 | Priority | Focus Area | Key Action Items | Clinical & Technical Impact |
 |---|---|---|---|
-| 1️⃣ | 🧠 **Clinical Integration (BraTS)** | Build a reproducible preprocessing pipeline (skull-stripping, N4 bias correction, resampling) and patient-wise splits to track core metrics (Dice, HD95, SSIM). | Standardized data would prevent the model from learning scanner artifacts. |
-| 2️⃣ | ⚡ **Inference Acceleration** | Maximize the O(N) linear attention efficiency on consumer GPUs using FP16 mixed precision (AMP), ONNX quantization, and targeted Triton/CUDA QKV kernel fusion. | Optimizations would allow the model to run on standard hospital GPUs. |
-| 3️⃣ | 🔮 **Uncertainty & Robustness** | Implement Monte Carlo sampling on the reverse diffusion chain for per-pixel variance heatmaps, paired with ComBat intensity harmonization for cross-scanner reliability. | Uncertainty heatmaps would flag ambiguous regions for doctors, while harmonization would ensure consistent performance across different hospital MRI machines. |
-| 4️⃣ | 💊 **Targeted Adaptation** | Encode treatment schedules/doses as learnable embeddings, and fine-tune the SEAL adapter specifically on post-operative resection cases using synthetic cavity boundaries. | Treating time/dosage as continuous variables would allow the model to predict treatment trajectories, while training on synthetic surgical cavities would prevent the model from mistaking post-op fluid for recurring tumors. |
+| 1️⃣ | **Clinical Integration (BraTS)** | Build a reproducible preprocessing pipeline (skull-stripping, N4 bias correction, resampling) and patient-wise splits to track core metrics (Dice, HD95, SSIM). | Standardized data would prevent the model from learning scanner artifacts. |
+| 2️⃣ | **Inference Acceleration** | Maximize the O(N) linear attention efficiency on consumer GPUs using FP16 mixed precision (AMP), ONNX quantization, and targeted Triton/CUDA QKV kernel fusion. | Optimizations would allow the model to run on standard hospital GPUs. |
+| 3️⃣ | **Uncertainty & Robustness** | Implement Monte Carlo sampling on the reverse diffusion chain for per-pixel variance heatmaps, paired with ComBat intensity harmonization for cross-scanner reliability. | Uncertainty heatmaps would flag ambiguous regions for doctors, while harmonization would ensure consistent performance across different hospital MRI machines. |
+| 4️⃣ | **Targeted Adaptation** | Encode treatment schedules/doses as learnable embeddings, and fine-tune the SEAL adapter specifically on post-operative resection cases using synthetic cavity boundaries. | Treating time/dosage as continuous variables would allow the model to predict treatment trajectories, while training on synthetic surgical cavities would prevent the model from mistaking post-op fluid for recurring tumors. |
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 ### Prerequisites
 
