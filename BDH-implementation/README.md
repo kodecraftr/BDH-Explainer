@@ -246,3 +246,94 @@ The following table outlines the prioritized focus areas for BDH's continued dev
 | 4️⃣ | 💊 **Targeted Adaptation** | Encode treatment schedules/doses as learnable embeddings, and fine-tune the SEAL adapter specifically on post-operative resection cases using synthetic cavity boundaries. |
 
 ---
+
+## 🚀 How to Run Locally
+
+### Prerequisites
+
+- Python 3.9+
+- CUDA-capable GPU (recommended; CPU works but will be slow)
+- [PyTorch](https://pytorch.org/get-started/locally/) installed for your CUDA version
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/spandan11106/BDH-Explainer.git
+cd BDH-Explainer/BDH-implementation
+```
+
+### 2. Create a Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate        # Linux / macOS
+# venv\Scripts\activate         # Windows
+```
+
+### 3. Install Dependencies
+
+Install PyTorch first (select the command matching your CUDA version from [pytorch.org](https://pytorch.org/get-started/locally/)), then install the remaining requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Prepare the Dataset
+
+Place your raw SAILOR NIfTI data and run the preprocessing script to convert it into `.npy` format:
+
+```bash
+python data/preproc_prepare_data.py \
+    --root /path/to/sailor-raw \
+    --output ./data/sailor_npy \
+    --modalities T1 T1c FLAIR T2
+```
+### 5. Train the Model
+
+```bash
+python train.py --data_dir ./data/sailor_npy
+```
+
+Common training flags:
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--data_dir` | *(required)* | Path to preprocessed `.npy` data |
+| `--batch_size` | `1` | Batch size per GPU |
+| `--max_epochs` | `3000` | Maximum training epochs |
+| `--lr` | `1e-4` | Learning rate |
+| `--hidden_size` | `1024` | Transformer hidden dimension |
+| `--depth` | `18` | Number of DiT blocks |
+| `--patch_size` | `8` | Patch size (must divide `image_size`) |
+| `--bdh_expansion` | `2` | BDH sparse expansion factor |
+| `--devices` | `1` | Number of GPUs |
+| `--precision` | `32` | Training precision (`32` or `16-mixed`) |
+| `--accumulate_grad_batches` | `1` | Gradient accumulation steps |
+| `--lr_scheduler` | `onecycle` | LR scheduler (`onecycle`, `cosine`, `plateau`) |
+
+Checkpoints and TensorBoard logs are saved to `./logs/tadiff-dit/` by default.
+
+### 6. Run Inference
+
+```bash
+python inference.py \
+    --checkpoint ./logs/tadiff-dit/checkpoints/last.ckpt \
+    --data_dir ./data/sailor_npy \
+    --patient_ids sub-17 \
+    --output_dir ./inference_results
+```
+
+Or run on a single patient file:
+
+```bash
+python inference.py \
+    --checkpoint ./logs/tadiff-dit/checkpoints/last.ckpt \
+    --patient_file ./data/sailor_npy/sub-17_image.npy \
+    --output_dir ./inference_results
+```
+### 7. Monitor Training
+
+```bash
+tensorboard --logdir ./logs
+```
+---
