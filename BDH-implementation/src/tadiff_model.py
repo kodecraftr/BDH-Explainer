@@ -1,16 +1,9 @@
 """
-Treatment-Aware Diffusion Model with BDH Integration - CORRECTED VERSION
+Treatment-Aware Diffusion Model with BDH Integration 
 
 This module provides the PyTorch Lightning wrapper for the TaDiff-Net
 with integrated BDH (Baby Dragon Hatchling) block for efficient
 longitudinal medical image modeling.
-
-FIXES APPLIED:
-1. Correct loss computation matching diffusion math
-2. Proper handling of target indices
-3. Fixed gradient flow issues
-4. Correct noise sampling and loss weighting
-5. Compatible with corrected diffusion.py
 
 Key Features:
 - Gaussian diffusion process for image generation
@@ -72,7 +65,7 @@ except ImportError:
 class Tadiff_model(LightningModule):
     """
     PyTorch Lightning module for Treatment-Aware Diffusion with BDH Block.
-    CORRECTED VERSION
+    
     
     Args:
         config: Configuration object containing model hyperparameters
@@ -106,14 +99,14 @@ class Tadiff_model(LightningModule):
             use_hybrid_embed=getattr(self.cfg, 'use_hybrid_embed', True),
         )
         
-        # Diffusion process - FIXED: Use corrected GaussianDiffusion
+        # Diffusion process 
         self.diffusion = GaussianDiffusion(
             T=self.cfg.max_T, 
             schedule=self.cfg.ddpm_schedule,
             device='cpu'  # Will be moved to correct device during training
         )
         
-        # FIXED: Precompute alphabar on CPU, move to device during forward
+        #  Precompute alphabar on CPU, move to device during forward
         self.register_buffer(
             'alphabar_np', 
             torch.from_numpy(np.cumprod(1 - np.linspace(1e-4, 2e-2, self.cfg.max_T))).float()
@@ -142,7 +135,7 @@ class Tadiff_model(LightningModule):
             self.dice_metric = DiceMetric()
         
         # SSIM for optional perceptual loss
-        # FIXED: data_range=2.0 because images are in [-1, 1] range (span = 2.0)
+        #  data_range=2.0 because images are in [-1, 1] range (span = 2.0)
         self.ssim_loss = SSIM(data_range=2.0, size_average=True, win_size=11, channel=3)
 
     def forward(self, x, timesteps, intv_t, treat_code, i_tg=None):
@@ -258,7 +251,7 @@ class Tadiff_model(LightningModule):
         s3_days = days[:, 2]
         t_days = days[:, 3]
         
-        # FIXED: Proper target index selection
+        # Proper target index selection
         if mode == 'train' and np.random.random() > 0.5:
             # Random target during training for robustness
             i_tg = torch.randint(0, s, (b,), device=self.device)
@@ -291,14 +284,14 @@ class Tadiff_model(LightningModule):
         gt_img = torch.stack([imgs_reshaped[i, i_tg_positive[i]] for i in range(b)], dim=0)
         gt_label = torch.stack([label[i, i_tg_positive[i]] for i in range(b)], dim=0)
         
-        # FIXED: Sample diffusion timesteps (1-indexed for diffusion.sample)
+        # Sample diffusion timesteps (1-indexed for diffusion.sample)
         t = torch.randint(1, self.diffusion.T + 1, (b,), device=self.device)
         
-        # FIXED: Get proper noise level weights
+        # Get proper noise level weights
         t_idx = (t - 1).clamp(0, self.diffusion.T - 1)
         alphabar_t = self.diffusion.alphabar[t_idx].to(self.device)
         
-        # FIXED: Forward diffusion with correct equation
+        #Forward diffusion with correct equation
         # x_t = sqrt(αbar_t) * x_0 + sqrt(1 - αbar_t) * ε
         xt, epsilon = self.diffusion.sample(gt_img, t)
         
@@ -335,7 +328,7 @@ class Tadiff_model(LightningModule):
         mask_pred = out[:, 0:4, :, :]
         img_pred = out[:, 4:7, :, :]
         
-        # FIXED: Compute weighted loss based on tumor region
+        #  Compute weighted loss based on tumor region
         # Weight more heavily in tumor regions
         tumor_weight = label_input.sum(dim=1, keepdim=True)  # [B, 1, H, W]
         tumor_weight = tumor_weight * torch.exp(-tumor_weight * 0.01)  # Soft weighting
@@ -345,7 +338,7 @@ class Tadiff_model(LightningModule):
             padding='same'
         ) + 1.0
         
-        # FIXED: Image reconstruction loss (predict noise, not image)
+        #  Image reconstruction loss (predict noise, not image)
         # MSE between predicted noise and actual noise
         loss_img = torch.mean(tumor_weight * (img_pred - epsilon) ** 2)
         mse = F.mse_loss(img_pred, epsilon)
@@ -355,7 +348,7 @@ class Tadiff_model(LightningModule):
         if isinstance(dice_loss_raw, torch.Tensor) and dice_loss_raw.dim() > 1:
             dice_loss_raw = dice_loss_raw.squeeze()
         
-        # FIXED: Weight segmentation loss WITHOUT in-place modification
+        # Weight segmentation loss WITHOUT in-place modification
         # At high noise, segmentation is harder, so down-weight
         sqrt_alphabar = torch.sqrt(alphabar_t).view(b, 1) if alphabar_t.dim() == 1 else torch.sqrt(alphabar_t)
         
