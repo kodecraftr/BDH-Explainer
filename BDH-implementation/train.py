@@ -1,12 +1,4 @@
-#!/usr/bin/env python
-"""
-TaDiff-DiT Training Script - FIXED
 
-FIXES APPLIED:
-1. Fixed RuntimeError: indices on GPU vs CPU mismatch
-2. Proper data normalization
-3. Correct batch preparation
-"""
 
 import os
 import sys
@@ -36,7 +28,7 @@ REPO_ROOT = Path(__file__).parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-# Import corrected modules
+# Import modules
 from src.net.tadiff_dit_arch import TaDiff_DiT
 from src.net.diffusion import GaussianDiffusion
 from src.net.ssim import SSIM
@@ -129,9 +121,7 @@ class TrainingConfig:
         assert self.hidden_size % self.num_heads == 0
 
 
-# =============================================================================
-# Data Module - CORRECTED
-# =============================================================================
+
 
 class SAILORDataModule(LightningDataModule):
     def __init__(self, config: TrainingConfig):
@@ -267,9 +257,7 @@ class SAILORDataModule(LightningDataModule):
         }
 
 
-# =============================================================================
-# Lightning Module - CORRECTED
-# =============================================================================
+
 
 class TaDiffDiTLitModule(LightningModule):
     def __init__(self, config: TrainingConfig):
@@ -277,7 +265,7 @@ class TaDiffDiTLitModule(LightningModule):
         self.save_hyperparameters()
         self.config = config
         
-        # Build model with corrected architecture
+        
         self.model = TaDiff_DiT(
             image_size=config.image_size,
             in_channels=config.in_channels,
@@ -295,7 +283,7 @@ class TaDiffDiTLitModule(LightningModule):
             bdh_layers=config.bdh_layers,
         )
         
-        # Corrected diffusion process
+        
         self.diffusion = GaussianDiffusion(
             T=config.max_T,
             schedule=config.ddpm_schedule,
@@ -392,7 +380,7 @@ class TaDiffDiTLitModule(LightningModule):
         # Sample noise
         noise = torch.randn_like(gt_images)
         
-        # --- FIX: Move schedule to GPU before indexing ---
+        
         t_idx = (t.long() - 1).clamp(0, self.config.max_T - 1)
         
         # Explicitly move the CPU-based schedule to the current device
@@ -909,14 +897,8 @@ def parse_args():
 
 
 def resolve_resume_checkpoint(config: TrainingConfig, requested_path: Optional[str]) -> Optional[str]:
-    """
-    Resolve resume checkpoint path.
-
-    Priority:
-    1) Explicit --resume_from if provided and exists
-    2) Auto-detect last checkpoint at logs/<exp>/checkpoints/last.ckpt
-    3) Start from scratch
-    """
+    
+    
     if requested_path:
         requested = Path(requested_path)
         if not requested.exists():
