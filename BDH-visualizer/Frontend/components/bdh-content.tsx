@@ -20,13 +20,6 @@ export function BDHContent() {
         </p>
       </div>
 
-      <div className="article-section" id="bdh-implementation">
-        <h2>BDH implementation</h2>
-        <p>
-          View the implementation: <a href="/bdh-implementation.html" target="_blank" rel="noopener noreferrer">BDH implementation page</a>
-        </p>
-      </div>
-
       <div className="article-section">
         <h1>BDH Architecture</h1>
 
@@ -221,6 +214,16 @@ export function BDHContent() {
         </ul>
       </div>
 
+      <div className="fixed-implementation-button">
+        <a href="/bdh-implementation.html" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span className="btn-label">BDH Implementation</span>
+        </a>
+      </div>
+
       <style jsx>{`
         .bdh-content {
           padding-bottom: 4rem;
@@ -323,6 +326,60 @@ export function BDHContent() {
 
         .bdh-content a:hover {
           color: #4338ca;
+        }
+
+        .fixed-implementation-button {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          z-index: 50;
+        }
+
+        .fixed-implementation-button a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0;
+          width: 2.5rem;
+          height: 2.5rem;
+          background: #000000;
+          color: white;
+          border-radius: 1.25rem;
+          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+          transition: all 0.3s ease;
+          text-decoration: none;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .fixed-implementation-button a svg {
+          width: 16px;
+          height: 16px;
+          min-width: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .fixed-implementation-button .btn-label {
+          max-width: 0;
+          opacity: 0;
+          overflow: hidden;
+          transition: max-width 0.3s ease, opacity 0.3s ease;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: white;
+        }
+
+        .fixed-implementation-button a:hover {
+          width: auto;
+          padding: 0 0.75rem;
+          gap: 0.4rem;
+          box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.4);
+          color: white;
+        }
+
+        .fixed-implementation-button a:hover .btn-label {
+          max-width: 10rem;
+          opacity: 1;
         }
 
         .article-subsection {
