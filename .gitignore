@@ -116,3 +116,12 @@ BDH-visualizer/.vercel/
 BDH-visualizer/.cache/
 BDH-visualizer/.vscode/
 BDH-visualizer/Data/infer
+
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Node modules
+node_modules/

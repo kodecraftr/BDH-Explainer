@@ -51,7 +51,7 @@ https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
 
 ### End-to-End Execution Flowchart
 
-Architecture diagram placeholder (add your local figure path if available, e.g. `docs/architecture.png`).
+![alt text](data/architecture.png)
 
 ---
 
