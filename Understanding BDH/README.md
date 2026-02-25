@@ -1,6 +1,6 @@
 # Understanding BDH: The Baby Dragon Hatchling Architecture
 
-[![YouTube Playlist](https://img.shields.io/badge/YouTube-Watch_the_Series-FF0000?style=for-the-badge&logo=youtube)](#)
+[![YouTube Playlist](https://img.shields.io/badge/YouTube-Watch_the_Series-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/playlist?list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G)
 [![Website](https://img.shields.io/badge/Website-Interactive_Tutorials-blue?style=for-the-badge)](#)
 [![Pathway](https://img.shields.io/badge/Original_Code-Pathway-green?style=for-the-badge)](#)
 
