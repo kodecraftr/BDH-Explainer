@@ -17,22 +17,22 @@ This repository serves as the companion guide to our 6-part YouTube masterclass 
 
 ## Video Series Index
 
-### [🎥 #1 From Transformers to BDH | What is Attention?](Link_To_Video_1)
+### [🎥 #1 From Transformers to BDH | What is Attention?](https://www.youtube.com/watch?v=aFU5szokm5k&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=1)
 **Setting the Stage.** We break down the fundamentals of the standard Transformer architecture, explain the mechanics (and the bottlenecks) of global softmax Attention, and introduce the core motivations behind the Baby Dragon Hatchling (BDH) architecture. 
 
-### [🎥 #2 BDH-Graph | Beyond the Matrix: Distributed Graph Intelligence](Link_To_Video_2)
+### [🎥 #2 BDH-Graph | Beyond the Matrix: Distributed Graph Intelligence](https://www.youtube.com/watch?v=9IPLT4XzDs0&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=2)
 **Section 2 of the Paper.** We dive into the theoretical math of BDH. Learn how to replace monolithic matrix operations with local graph dynamics. We cover the 4-phase reasoning cycle (Read, Write, Filter, Send), Hebbian learning, and Replicator Dynamics.
 
-### [🎥 #3 BDH-GPU | A Tensor-Friendly Version of the BDH Architecture](Link_To_Video_3)
+### [🎥 #3 BDH-GPU | A Tensor-Friendly Version of the BDH Architecture](https://www.youtube.com/watch?v=2JSm78o65R8&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=3)
 **Section 3 of the Paper.** How do we run organic graph physics on a GPU? We explore the low-rank factorizations that translate $O(N^2)$ graph connections into efficient tensor operations, proving that continual, synaptic reasoning is compatible with modern deep learning stacks.
 
-### [🎥 #4 Bridging Biological Graph Dynamics with Tensor Efficiency](Link_To_Video_4)
+### [🎥 #4 Bridging Biological Graph Dynamics with Tensor Efficiency](https://www.youtube.com/watch?v=2YKTmu9MQYw&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=4)
 **Section 4 of the Paper.** The engineering reality. We break down the implementation details: how BDH uses just three shared matrices ($E, D_x, D_y$), how it maintains a constant memory footprint, and how the 5% activation sparsity drives computational efficiency and $O(T)$ linear scaling laws.
 
-### [🎥 #5 Analysis: Emergence of Modularity and Scale-Free Structure](Link_To_Video_5)
+### [🎥 #5 Analysis: Emergence of Modularity and Scale-Free Structure](https://www.youtube.com/watch?v=Y3X_UiCOkMo&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=5)
 **Section 5 of the Paper.** Why does this architecture matter? We explore "Axiomatic AI" and how imposing structural constraints (bottlenecks, sparsity, thresholds) forces the network to spontaneously evolve biological traits—like core-periphery hubs, monosemantic synapses, and composability.
 
-### [🎥 #6 Official Pathway `bdh.py` Code Explained!](Link_To_Video_6)
+### [🎥 #6 Official Pathway `bdh.py` Code Explained!](https://www.youtube.com/watch?v=lnivP1jU2SM&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=6)
 **Code Walkthrough.** We pop the hood and analyze the official open-source PyTorch implementation from Pathway. We walk through the exact mechanics of the massive sparse latent expansion, the positive orthant gating, and Rotary Positional Embeddings (RoPE) integration.
 
 ---
