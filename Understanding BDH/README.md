@@ -43,7 +43,7 @@ This repository serves as the companion guide to our 6-part YouTube masterclass 
 
 
 ## 📬 Connect with Us
-* Subscribe on [YouTube](#)
+* Subscribe on [YouTube](https://www.youtube.com/@BabyDragonHatchilng)
 
 
 ---
