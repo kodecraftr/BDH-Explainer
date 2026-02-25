@@ -1,231 +1,166 @@
-# BDH Visuals — Neural Language Model Research & Visualization
+# BDH Visualizer
 
-A comprehensive research project featuring custom neural language models with interactive visualization tools for understanding model behavior and neuron analysis.
+An interactive research toolkit for exploring model behavior and internal representations of the Baby Dragon Hypernetwork (BDH) and related transformer baselines. The project pairs a Python/FastAPI backend with a Next.js frontend, enabling interactive inspection of token encodings, neuron activations, and generation behavior.
 
-## 🧠 Models
+---
 
-Two PyTorch language models with distinct architectures:
+## Table of Contents
 
-- **BDH Model**: Custom architecture with rotary positional embeddings and Hebbian-style gating
-- **Transformer Model**: GPT-style causal Transformer for baseline comparison
+- [Overview](#overview)
+- [Repository Layout](#repository-layout)
+- [Quick Start](#quick-start)
+- [Primary Components](#primary-components)
+- [Configuration](#configuration)
+- [Usage Examples](#usage-examples)
+- [Developer Notes](#developer-notes)
+- [Contributing](#contributing)
 
-## 🎨 Interactive Frontend
+---
 
-Next.js-based web interface for:
-- **Text Generation**: Interactive text generation with temperature and sampling controls
-- **Neuron Visualization**: Real-time visualization of neuron activations and weights
-- **Token Encoding**: Visual representation of token encoding processes
-- **Model Comparison**: Side-by-side analysis of different model behaviors
+## Overview
 
-## 📁 Repository Structure
+The BDH Visualizer provides a browser-based interface for researchers and developers to:
+
+- Inspect token encodings and embedding representations
+- Visualize neuron activations across model layers
+- Run text generation with configurable sampling and temperature settings
+- Compare BDH and standard Transformer baselines side by side
+
+The **BDH model** is a custom language model architecture featuring rotary positional embeddings and Hebbian-style gating, trained on the TinyStories dataset. A standard GPT-style Transformer is included for comparison.
+
+---
+
+## Repository Layout
 
 ```
-Backend/              # FastAPI server and utilities
-├── server.py         # FastAPI server with model endpoints
-├── utils.py          # BDHModelHandler and helper functions
-└── __init__.py       # Python package initialization
-Data/                 # Data processing and token prediction utilities
-├── next_token.py     # Script for next token prediction
-Frontend/             # Next.js visualization interface
-├── app/              # Next.js app router pages
-├── components/       # React components for visualizations
-└── public/           # Static assets
-Models/               # Model implementations and analysis
-├── BDH_model/        # Custom BDH architecture
-├── Transformer_model/# Standard transformer baseline
-├── comparison/       # Model comparison scripts
-└── scripts/          # Analysis and visualization scripts
-.gitignore           # Git ignore rules
-README.md            # This file
-requirements.txt     # Python dependencies (pip)
-environment.yml      # Conda environment specification
-setup_environment.sh # Automated conda setup script
-start_server.sh      # Script to start the backend server
+BDH-visualizer/
+├── Backend/                    # FastAPI server and model utilities
+│   ├── server.py               # API endpoints (inference, embeddings, neurons)
+│   └── utils.py                # Model handler and helper utilities
+├── Data/                       # Data preparation and prediction utilities
+├── Frontend/                   # Next.js visualization interface
+│   ├── app/                    # Next.js app router pages
+│   ├── components/             # React components for visualizations
+│   └── lib/                    # Shared frontend utilities
+├── Models/                     # Model implementations and training scripts
+│   ├── BDH_model/              # BDH architecture, training, and inference
+│   ├── Transformer_model/      # GPT-style baseline
+│   ├── comparison/             # Cross-model analysis utilities
+│   └── scripts/                # Standalone analysis scripts
+├── environment.yml             # Conda environment definition
+├── requirements.txt            # Pip dependency manifest
+├── setup_environment.sh        # One-step environment setup
+├── start_server.sh             # Backend server launch script
+└── run_activation_analysis.sh  # Activation analysis convenience script
 ```
 
-## 🚀 Quick Start
+---
+
+## Quick Start
 
 ### Prerequisites
+
 - Python 3.8+ (3.10 recommended)
-- Conda (Miniconda or Anaconda) - **recommended**
-- Node.js 16+ (for Frontend)
-- Git
+- Conda (recommended) or a Python virtual environment
+- Node.js 16+
 
-### Option 1: Conda Environment Setup (Recommended)
+### Option 1 — Conda (Recommended)
 
-The easiest way to set up the project:
+**1. Set up the environment:**
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd BDH_visuals
-
-# Run the automated setup script
 chmod +x setup_environment.sh
 ./setup_environment.sh
-
-# Activate the environment
 conda activate ml
 ```
 
-The script creates a conda environment named **"ml"** and installs all dependencies automatically.
-
-### Option 2: Manual Conda Setup
+**2. Start the backend server:**
 
 ```bash
-# Create environment from environment.yml
-conda env create -f environment.yml
-
-# Activate the environment
-conda activate ml
-```
-
-### Option 3: pip/venv Setup
-
-If you prefer pip and virtual environments:
-
-```bash
-# Create and activate virtual environment
-python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# or .venv\Scripts\activate  # Windows
-
-# Install Python dependencies
-pip install -r requirements.txt
-```
-
-> **Note**: The `requirements.txt` and `environment.yml` files are cross-platform compatible. All hardcoded paths have been removed.
-
-### Running the Backend Server
-
-The FastAPI backend server provides REST API endpoints for model inference:
-
-```bash
-# Start the backend server
 python -m uvicorn Backend.server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-The server will be available at [http://localhost:8000](http://localhost:8000)
-
-API Endpoints:
-- `GET /` - Server status
-- `POST /predict` - Generate next token predictions
-- `POST /embeddings` - Get token embeddings
-- `POST /neurons` - Get neuron activations for a specific layer
-
-### Frontend Setup (Next.js Interface)
+**3. Start the frontend development server:**
 
 ```bash
-# Navigate to frontend directory
 cd Frontend
-
-# Install Node.js dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-Access the visualization interface at [http://localhost:3000](http://localhost:3000)
+The backend will be available at `http://localhost:8000` and the frontend at `http://localhost:3000`.
 
-## 🔬 Training Models
-
-The training scripts work both on Google Colab (with GPU) and local systems:
-
-### On Google Colab (Recommended for GPU training):
-1. The scripts automatically detect Colab environment and mount Google Drive
-2. Upload `train.bin` and `val.bin` to your Drive
-3. Run the training script
-
-### On Local Systems:
-```bash
-# Set up data directory (optional - defaults to project/data)
-export BDH_DATA_DIR=/path/to/your/data
-export BDH_OUT_DIR=/path/to/save/checkpoints
-
-# Run training
-python Models/BDH_model/train.py
-# or
-python Models/Transformer_model/train.py
-```
-
-Prepare `train.bin` and `val.bin` token binaries (TinyStories dataset with GPT-2 tokenization).
-
-For more details on training configuration, see [Models/README.md](Models/README.md).
-
-Checkpoints are written every 100 iterations (`ckpt_<iter>.pt`) and final weights saved as `bdh_final.pt` or `transformer_final.pt`.
-
-## 🔬 Model Inference
-
-### Command Line Interface
+### Option 2 — pip/venv
 
 ```bash
-# BDH Model inference
-cd Models/BDH_model && python run.py
-
-# Transformer Model inference  
-cd Models/Transformer_model && python run.py
-
-# Next token prediction utility
-python Data/next_token.py "Your input text here"
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### Web Interface
+Then follow steps 2 and 3 above to launch the servers.
 
-Start the frontend development server for interactive model exploration:
+---
+
+## Primary Components
+
+| Path | Description |
+|---|---|
+| `Backend/server.py` | FastAPI server exposing `/predict`, `/embeddings`, and `/neurons` endpoints |
+| `Backend/utils.py` | `BDHModelHandler` class — loads checkpoints and runs inference |
+| `Frontend/` | Next.js app with React components for visualization and UI |
+| `Data/` | Preprocessing scripts and next-token prediction utilities |
+| `Models/BDH_model/` | BDH architecture, training script, and local inference runner |
+| `Models/Transformer_model/` | GPT-style baseline with equivalent training and inference scripts |
+
+---
+
+## Configuration
+
+Scripts resolve data and checkpoint paths relative to the project root by default. Override these with environment variables:
+
+| Variable | Purpose |
+|---|---|
+| `BDH_DATA_DIR` | Directory containing `train.bin` and `val.bin` token binaries |
+| `BDH_OUT_DIR` | Output directory for checkpoints and training artifacts |
+
+Example:
 
 ```bash
-cd Frontend && npm run dev
+export BDH_DATA_DIR=/path/to/data
+export BDH_OUT_DIR=/path/to/checkpoints
 ```
 
-## 📊 Analysis & Visualization
+---
 
-- **Neuron Analysis**: Automated scripts analyze neuron activations across model checkpoints
-- **Performance Comparison**: Compare BDH vs Transformer architectures
-- **Memory Usage**: Track computational efficiency
-- **Training Metrics**: Visualize loss curves and model convergence
+## Usage Examples
 
-## ✨ Portability & Cross-Platform Support
-
-This project has been designed to work seamlessly across different systems:
-
-### Key Features:
-- **No Hardcoded Paths**: All file paths are relative to the project root
-- **Environment Variable Support**: Override default paths using `BDH_DATA_DIR` and `BDH_OUT_DIR`
-- **Automatic Environment Detection**: Training scripts detect Colab vs local environments
-- **Cross-Platform Requirements**: Clean `requirements.txt` without system-specific file paths
-- **Flexible Model Loading**: All model handlers use relative paths by default
-
-### Path Configuration:
-All scripts automatically determine paths relative to the current file location. You can override these defaults using environment variables:
+**Next-token prediction from the CLI:**
 
 ```bash
-# Example: Custom data directory
-export BDH_DATA_DIR=/custom/path/to/data
-export BDH_OUT_DIR=/custom/path/to/outputs
+python Data/next_token.py "Once upon a time"
 ```
 
-## 🛠️ Development
+**Run a BDH model inference session:**
 
-Both training scripts support Google Colab (GPU) and local systems. Local CPUs may be slower for the configured batch sizes.
+```bash
+cd Models/BDH_model
+python run.py
+```
 
-### Training Requirements
-- Google Colab Pro (recommended) or GPU with 8GB+ VRAM
-- TinyStories dataset with GPT-2 tokenization
-- `tiktoken` library for tokenization
+**Run activation analysis:**
 
-## 📚 Documentation
+```bash
+chmod +x run_activation_analysis.sh
+./run_activation_analysis.sh
+```
 
-See [Models/README.md](Models/README.md) for detailed guidance on:
-- Data preparation and preprocessing
-- Training configuration and hyperparameters
-- Model architecture details
-- Advanced analysis techniques
+---
 
-## 🌐 Frontend Documentation
+## Developer Notes
 
-See [Frontend/README.md](Frontend/README.md) for:
-- Component architecture
-- Visualization features
-- Development setup
-- Deployment instructions
+- Training scripts support both Google Colab (GPU) and local GPU environments. A GPU with at least 8 GB VRAM is recommended for practical batch sizes.
+- Tokenization follows GPT-2 conventions via `tiktoken`. Install it with `pip install tiktoken` if not present.
+- Model checkpoints are saved every 100 iterations as `ckpt_<iter>.pt`. Final weights are saved as `bdh_final.pt` and `transformer_final.pt` respectively.
+- Neuron analysis CSVs and training curve plots are written to `Models/<model>/neuron_analysis/` and `Models/<model>/visuals/` after training.
+

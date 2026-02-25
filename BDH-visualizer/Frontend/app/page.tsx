@@ -255,7 +255,7 @@ export default function Page() {
   // Connector lines removed: visuals simplified for a centered layout
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex flex-col items-center justify-start p-0 pt-0 dark:bg-neutral-950 transition-colors">
+    <div className="min-h-screen bg-neutral-50 flex flex-col items-center justify-start px-3 pt-4 sm:px-5 sm:pt-5 dark:bg-neutral-950 transition-colors">
       <Card className="w-full max-w-[95vw] 2xl:max-w-[1700px] mx-auto bg-transparent border-0 shadow-none ring-0 overflow-visible">
         <CardContent className="p-0">
           <div className="flex flex-col lg:flex-row items-center gap-6 justify-between">

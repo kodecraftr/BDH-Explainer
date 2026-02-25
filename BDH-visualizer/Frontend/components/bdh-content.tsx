@@ -223,11 +223,13 @@ export function BDHContent() {
 
       <style jsx>{`
         .bdh-content {
-          padding-bottom: 3rem;
+          padding-bottom: 4rem;
           margin-left: auto;
           margin-right: auto;
           max-width: 80ch;
           width: 100%;
+          font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+          font-weight: 300;
         }
 
         .bold-purple {
@@ -236,48 +238,61 @@ export function BDHContent() {
         }
 
         code {
-          color: rgb(17, 24, 39);
-          font-family: ui-monospace, monospace;
+          color: #4338ca;
+          background: #eef2ff;
+          font-family: var(--font-dm-mono), 'DM Mono', ui-monospace, monospace;
           font-weight: 600;
+          font-size: 0.88em;
+          padding: 0.12em 0.4em;
+          border-radius: 0.3em;
           word-break: break-word;
         }
 
         .article-section {
-          padding-bottom: 2rem;
+          padding-bottom: 2.5rem;
+        }
+
+        .article-section + .article-section {
+          border-top: 1px solid rgba(106, 45, 213, 0.1);
+          padding-top: 2rem;
         }
 
         .bdh-content h1 {
           color: #6A2DD5;
           font-size: clamp(1.5rem, 3vw, 2.2rem);
-          font-weight: 500;
+          font-weight: 600;
           padding-top: 1rem;
+          letter-spacing: -0.02em;
+          font-family: var(--font-syne), 'Syne', sans-serif;
         }
 
         .bdh-content h2 {
           color: #6A2DD5;
-          font-size: clamp(1.3rem, 2.5vw, 2rem);
-          font-weight: 500;
+          font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+          font-weight: 600;
           padding-top: 1rem;
+          letter-spacing: -0.015em;
+          font-family: var(--font-syne), 'Syne', sans-serif;
         }
 
         .bdh-content h3 {
           color: rgb(17, 24, 39);
-          font-size: clamp(1.1rem, 2vw, 1.6rem);
+          font-size: clamp(1.05rem, 2vw, 1.45rem);
           font-weight: 600;
           padding-top: 1rem;
         }
 
         .bdh-content h4 {
-          color: rgb(17, 24, 39);
-          font-size: clamp(1rem, 1.8vw, 1.4rem);
+          color: rgb(30, 41, 59);
+          font-size: clamp(0.95rem, 1.8vw, 1.2rem);
           font-weight: 600;
           padding-top: 1rem;
         }
 
         .bdh-content p {
-          margin: 1rem 0;
-          color: rgb(17, 24, 39);
-          line-height: 1.6;
+          margin: 0.9rem 0;
+          color: rgb(30, 41, 59);
+          line-height: 1.75;
           font-size: clamp(0.875rem, 1.1vw, 1rem);
         }
 
@@ -288,8 +303,8 @@ export function BDHContent() {
 
         .bdh-content li {
           margin: 0.6rem 0;
-          color: rgb(0, 0, 0);
-          line-height: 1.6;
+          color: rgb(30, 41, 59);
+          line-height: 1.75;
           font-size: clamp(0.875rem, 1.1vw, 1rem);
         }
 
@@ -299,12 +314,26 @@ export function BDHContent() {
           margin-bottom: 1rem;
         }
 
+        .bdh-content a {
+          color: #4f46e5;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          font-weight: 500;
+        }
+
+        .bdh-content a:hover {
+          color: #4338ca;
+        }
+
         .article-subsection {
           margin-left: 0.5rem;
         }
 
         .article-subsection-l2 {
           margin-left: 0.5rem;
+          padding-left: 1rem;
+          border-left: 2px solid rgba(106, 45, 213, 0.18);
+          margin-bottom: 1.25rem;
         }
 
         @media (min-width: 640px) {
@@ -325,31 +354,6 @@ export function BDHContent() {
           }
         }
 
-        @media (prefers-color-scheme: dark) {
-          .bold-purple {
-            color: #6A2DD5;
-          }
-
-          code {
-            color: rgb(17, 24, 39);
-            font-weight: 600;
-          }
-
-          .bdh-content h1,
-          .bdh-content h2 {
-            color: #6A2DD5;
-          }
-
-          .bdh-content h3,
-          .bdh-content h4 {
-            color: rgb(17, 24, 39);
-          }
-
-          .bdh-content p,
-          .bdh-content li {
-            color: rgb(17, 24, 39);
-          }
-        }
       `}</style>
     </div>
   );
