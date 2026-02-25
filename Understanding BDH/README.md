@@ -19,7 +19,7 @@ This repository serves as the companion guide to our 6-part YouTube masterclass 
 ### [🎥 #1 From Transformers to BDH | What is Attention?](https://www.youtube.com/watch?v=aFU5szokm5k&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=1)
 **Setting the Stage.** We break down the fundamentals of the standard Transformer architecture, explain the mechanics (and the bottlenecks) of global softmax Attention, and introduce the core motivations behind the Baby Dragon Hatchling (BDH) architecture. 
 
-### [🎥 #2 BDH-Graph | Beyond the Matrix: Distributed Graph Intelligence](https://www.youtube.com/watch?v=9IPLT4XzDs0&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=2)
+### [🎥 #2 BDH-Graph | Beyond the Matrix: Distributed Graph Intelligence](https://www.youtube.com/watch?v=kn0DLsSKXJM&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=2)
 **Section 2 of the Paper.** We dive into the theoretical math of BDH. Learn how to replace monolithic matrix operations with local graph dynamics. We cover the 4-phase reasoning cycle (Read, Write, Filter, Send), Hebbian learning, and Replicator Dynamics.
 
 ### [🎥 #3 BDH-GPU | A Tensor-Friendly Version of the BDH Architecture](https://www.youtube.com/watch?v=2JSm78o65R8&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=3)
