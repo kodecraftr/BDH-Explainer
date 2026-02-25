@@ -1,106 +1,140 @@
-# Models
+# BDH Models Architecture & Training
 
-This directory contains two PyTorch language models plus their checkpoints, visuals, and neuron analyses. It also explains how to set up a Python environment, prepare data, train in Google Colab, and run local inference.
+This directory contains the core PyTorch implementations for the **Baby Dragon Hatchling (BDH)** model and a comparative **Transformer** baseline. It includes all necessary scripts for model definition, training, checkpointing, and local inference testing, alongside utilities for generating performance visuals and neuron statistics.
 
-## Overview
-- **BDH Model**: Custom architecture with rotary positional embeddings and Hebbian-style gating. See [Models/BDH_model/train.py](BDH_model/train.py) and [Models/BDH_model/run.py](BDH_model/run.py).
-- **Transformer Model**: GPT-style causal Transformer (scaled dot-product attention + MLP). See [Models/Transformer_model/train.py](Transformer_model/train.py) and [Models/Transformer_model/run.py](Transformer_model/run.py).
-- **Checkpoints & Visuals**: Each model subfolder includes `checkpoints/`, `visuals/` (loss/metrics plots), and `neuron_analysis/` CSVs where available.
+---
 
-## Folder Layout
-```
+## 🏗️ Architecture Overview
+
+The repository explores two distinct language modeling paradigms:
+
+1. **BDH Model (`BDH_model/`)**: 
+   A highly customized architecture leveraging Rotary Positional Embeddings (RoPE) paired with Hebbian-style gating mechanisms. This model is designed to study alternative sparse activation mapping and token encoding strategies.
+   - **Core Implementation:** `train.py` (Training logic), `run.py` (Inference execution).
+
+2. **Transformer Baseline (`Transformer_model/`)**: 
+   A standard GPT-style causal language model utilizing scaled dot-product attention and Multi-Layer Perceptrons (MLP). This serves as the primary baseline against which the BDH architecture is measured.
+   - **Core Implementation:** `train.py` (Training logic), `run.py` (Inference execution).
+
+---
+
+## 📂 Directory Structure
+
+Both architectural branches follow an identical structural layout for consistency in analysis:
+
+```text
 Models/
-   BDH_model/
-      train.py           # Colab-oriented training script
-      run.py             # Local CPU inference
-      checkpoints/       # Saved checkpoints (ckpt_*.pt)
-      visuals/           # loss_vs_iter.png, param_norm_vs_iter.png, metrics.csv
-      neuron_analysis/   # per-ckpt neuron statistics (CSV)
-      bdh_final.pt       # Final trained weights (example)
-   Transformer_model/
-      train.py           # Colab-oriented training script
-      run.py             # Local CPU inference
-      checkpoints/       # Saved checkpoints (ckpt_*.pt)
-      visuals/           # loss_vs_iter.png, param_norm_vs_iter.png, metrics.csv
-      transformer_final.pt  # Final trained weights (example)
+├── BDH_model/
+│   ├── train.py                # Primary training script (Supports local & Colab)
+│   ├── run.py                  # Local CPU/GPU inference script
+│   ├── checkpoints/            # Serialized model weights (`ckpt_*.pt`)
+│   ├── visuals/                # Generated loss curves and metrics (`.png`, `.csv`)
+│   └── neuron_analysis/        # Granular per-checkpoint neuron statistics (`.csv`)
+│
+├── Transformer_model/
+│   ├── train.py                
+│   ├── run.py                  
+│   ├── checkpoints/            
+│   ├── visuals/                
+│   └── neuron_analysis/        
+└── scripts/                    # Utility scripts for batch analysis
 ```
 
-## Setup
-- **Python**: 3.10+ is recommended.
-- **Environment**: Use a virtualenv to avoid system-wide changes.
+---
 
-Create and activate a venv, then install dependencies:
+## 🚀 Setup & Environment
+
+Ensure you have a modern Python environment (**Python 3.10+** is highly recommended). To avoid system-wide dependency conflicts, utilize the project-wide Conda environment or initialize a dedicated virtual environment here.
 
 ```bash
+# Using standard virtual environment:
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
-pip install -r requirements.txt
+
+# Requirements are defined in the repository root
+pip install -r ../requirements.txt 
 ```
 
-## Data Preparation
-Training expects `uint16` token binaries (`train.bin`, `val.bin`) produced from TinyStories (GPT‑2 tokenization via `tiktoken`). If your data-prep script is not included in this repo, prepare the `.bin` files and place them in the data directory.
+---
 
-## Training (Colab or Local)
-The scripts in [Models/BDH_model/train.py](BDH_model/train.py) and [Models/Transformer_model/train.py](Transformer_model/train.py) work both on Google Colab with GPU and on local systems.
+## 💾 Data Preparation
 
-**On Google Colab:**
-- The scripts automatically detect Colab environment and mount Google Drive
-- Default data directory: `/content/drive/My Drive/BDH_Data`
-- Steps:
-   1. Open a GPU-backed Colab notebook.
-   2. Upload/clone this repository.
-   3. Ensure `train.bin` and `val.bin` exist under a Drive folder referenced by `DATA_DIR`.
-   4. Run the chosen training script.
+The training scripts ingest raw tokenized binaries natively format-compatible with `tiktoken` (GPT-2 BPE standard). 
 
-**On Local Systems:**
-- The scripts use relative paths from the project directory
-- Default data directory: `<project_root>/data`
-- Default output directory: `<model_folder>/checkpoints`
+**Required Files:** 
+Ensure your dataset is pre-processed into `uint16` binaries named `train.bin` and `val.bin`. Place these within your designated data directory before initiating training.
 
-**Custom Paths:**
-You can override the default paths using environment variables:
-- `BDH_DATA_DIR`: Path to directory containing `train.bin` and `val.bin`
-- `BDH_OUT_DIR`: Path to directory for saving checkpoints
+---
 
-Example:
+## 🏋️‍♂️ Training Workflows
+
+The provided training scripts are hybrid—they are configured to detect and run identically on both **Google Colab (GPU)** and **Local Systems**.
+
+### Local Execution Strategy
+
+By default, scripts resolve relative paths targeting `<project_root>/data` for inputs and `<model_folder>/checkpoints` for outputs.
+
+You can explicitly override these paths using environmental variables:
+
+*   `BDH_DATA_DIR`: Absolute path to the directory housing `train.bin` and `val.bin`.
+*   `BDH_OUT_DIR`: Absolute path for saving the compiled `.pt` checkpoint dictionaries.
+
+**Example Local Execution:**
 ```bash
-export BDH_DATA_DIR=/path/to/your/data
-export BDH_OUT_DIR=/path/to/your/checkpoints
+export BDH_DATA_DIR=/dataset/tinystories/
+export BDH_OUT_DIR=/projects/BDH/output_checkpoints/
+
 python Models/BDH_model/train.py
 ```
 
-Checkpoints:
-- Saved every 100 iterations as `ckpt_<iter>.pt`.
-- Final models saved as `bdh_final.pt` (BDH) and `transformer_final.pt` (Transformer).
+### Google Colab Execution Strategy
 
-## Inference (Local CPU)
-Copy a checkpoint into the respective model folder and run `run.py`.
+1. Open a GPU-accelerated notebook instance.
+2. Clone this repository into the workspace.
+3. The scripts will automatically detect the Colab environment and attempt to mount Google Drive. 
+4. Ensure your tokenized binaries are located at the default Drive mounting point: `/content/drive/My Drive/BDH_Data`.
 
-Transformer:
+**Checkpoint Intervals:**
+*   Intermediate weights serialize every 100 iterations as `ckpt_<iter>.pt`.
+*   Final states compile as either `bdh_final.pt` or `transformer_final.pt`.
+
+---
+
+## 🧠 Local Inference
+
+To validate output quality interactively, execute the `run.py` script within either model's respective directory. 
+
+*Note: The inference script requires a valid checkpoint (either `ckpt_*.pt` or `*_final.pt`) to be present in the working directory.*
+
+**Transformer Baseline:**
 ```bash
 cd Models/Transformer_model
 python run.py
 ```
 
-BDH:
+**BDH Architecture:**
 ```bash
 cd Models/BDH_model
 python run.py
 ```
 
-Both scripts stream generated tokens. `tiktoken` is required; install via `pip install tiktoken` or use the provided `requirements.txt`.
+The script will stream auto-regressive token generation directly to the console. *(Requires `tiktoken` for decoding).*
 
-## Visuals & Neuron Analysis
-- `visuals/metrics.csv`: Summary metrics per checkpoint.
-- `visuals/loss_vs_iter.png`, `visuals/param_norm_vs_iter.png`: Training curves.
-- `neuron_analysis/*.csv`: per-checkpoint neuron stats (BDH and Transformer), useful for interpretability.
+---
 
-## Training Locally (Optional)
-To train outside Colab, remove Drive‑mount code and set `DATA_DIR`/`OUT_DIR` to local paths. Reduce `batch_size`/`max_iters` and use a CUDA-enabled environment.
+## 📊 Analytics & Telemetry
 
-## Troubleshooting
-- `google.colab` import errors locally: Training scripts are Colab‑specific; use Colab or adapt paths and remove Drive mount.
-- Missing `tiktoken`: `pip install tiktoken`.
-- Checkpoint not found: ensure the expected `.pt` file is in the working directory used by `run.py`.
+Automated telemetry is generated routinely during the training lifecycle:
 
+*   **Training Curves (`visuals/`)**: Plots visualizing `loss_vs_iter.png` and `param_norm_vs_iter.png`.
+*   **Performance Metrics (`visuals/metrics.csv`)**: A historical log mapping iterations to loss bounds.
+*   **Activation Statistics (`neuron_analysis/*.csv`)**: Deep-dive statistical outputs mapping the activation density of individual neurons per checkpoint. This data heavily feeds the BDH Visualizer UI.
+
+---
+
+## 🛠 Troubleshooting Common Issues
+
+*   **`google.colab` Import Errors (Local Run):** If your local environment strictly enforces import checks, you may need to manually comment out the Colab-specific Drive mount block headers at the top of the `train.py` scripts.
+*   **Missing Dependencies (`tiktoken`):** Ensure the tokenizer is installed via `pip install tiktoken`.
+*   **Checkpoint Resolution Failures:** Verify that `run.py` is executed from *within* its specific model sub-directory, and that a `.pt` file exists.

@@ -1,124 +1,75 @@
 # BDH Data Extraction Tools
 
-A comprehensive suite of tools for extracting and analyzing data from the BDH (Bidirectional Deep Highway) model. This modular system extracts neuron activations, embeddings (with RoPE positional encoding), predictions, and raw logits from text input.
+This directory contains a comprehensive suite of tools designed for extracting and analyzing internal states from the Baby Dragon Hatchling (BDH) model. This modular system facilitates the extraction of neuron activations, topological embeddings (including Rotary Positional Encoding transformations), sequence predictions, and raw logit distributions.
 
-## Features
+---
 
-- **🧠 Neuron Extraction**: Capture neuron activations from all layers and heads
-- **📊 Embedding Extraction**: Extract 256D embeddings, reduce to 30D/32D, includes RoPE transformation
-- **🎯 Prediction Generation**: Predict top-K next tokens with probabilities
-- **📈 Raw Logits**: Save complete logit distributions for post-processing
-- **🔄 Prediction Updates**: Recalculate predictions with different temperature/top-K without re-running model
-- **🗂️ Organized Output**: Clean directory structure with separate files for each data type
-- **⚡ Modular Design**: Separate extraction modules for flexibility
+## Capabilities
 
-## Quick Start
+*   **Neuron Extraction (`extract_neurons.py`)**: Capture granular neuron activations across all model layers and attention heads.
+*   **Embedding Extraction (`extract_embeddings.py`)**: Extract high-dimensional (256D) token embeddings and perform dimensionality reduction (30D/32D) inclusive of RoPE (Rotary Positional Encoding) phase transformations.
+*   **Prediction Generation (`extract_predictions.py`)**: Generate top-K next-token predictions complete with probability distributions.
+*   **Raw Logit Harvesting (`extract_logits.py`)**: Serialize complete vocabulary logit distributions for offline post-processing.
+*   **Fast Prediction Re-sampling (`update_predictions.py`)**: Recalculate token predictions instantly under varied temperature and top-K constraints without requiring a full model forward pass.
 
-Run the main data extractor:
+---
+
+## Quick Start Guide
+
+**1. Complete Data Extraction Pipeline:**
+
+The primary orchestration script runs all extraction modules sequentially and outputs to the `Data/infer/` directory.
+
 ```bash
+# Execute the automated environment wrapper
 ./run_demo.sh
+
+# Alternatively, execute directly within the active Conda environment:
+# conda activate ml
+# python demo.py
 ```
 
-Or with conda directly:
-```bash
-conda activate ml
-python demo.py
-```
+*During execution, you will be prompted to provide an input text sequence, followed by desired Temperature (default: 0.8) and Top-K (default: 20) parameters.*
 
-Update predictions from existing logits (fast!):
+**2. Fast Prediction Updates:**
+
+To experiment with different sampling parameters on an existing set of harvested logits:
+
 ```bash
 ./run_update_predictions.sh
 ```
 
-## Tools Overview
+---
 
-### 1. `demo.py` - Complete Data Extractor
-**Main tool** that orchestrates all extractions and saves to `Data/infer/` directory.
+## Output Architecture (`Data/infer/`)
 
-**What it generates:**
-- `embeddings.csv` - Token embeddings (original + RoPE, 30D normalized)
-- `predictions.csv` - Top-K next token predictions with probabilities
-- `logits.csv` - Raw logits for all vocabulary tokens
-- `layer1/` to `layer6/` - Neuron activations for each layer
-  - `head1.csv` to `head4.csv` - Top 50 neurons per head
+Execution of the `demo.py` orchestrator populates the `Data/infer/` directory structured as follows:
 
-**Usage:**
-```bash
-./run_demo.sh
-# Follow prompts:
-# 1. Enter text: "Once upon a time"
-# 2. Temperature (default 0.8)
-# 3. Top-K (default 20)
-```
-
-### 2. `update_predictions.py` - Fast Prediction Updates
-**Recalculates predictions** from existing logits without re-running the model (instant).
-
-**Use case:** Experiment with different temperature/top-K values on same input.
-
-**Usage:**
-```bash
-./run_update_predictions.sh
-# Loads existing logits from Data/infer/logits.csv
-# Enter new temperature and top-K values
-# Updates Data/infer/predictions.csv
-```
-
-## File Structure
-
-### Execution Scripts
-- **`demo.py`** - Main orchestrator, imports all extraction modules
-- **`update_predictions.py`** - Prediction recalculation tool
-- **`run_demo.sh`** - Launcher script for demo.py (activates ml env)
-- **`run_update_predictions.sh`** - Launcher script for update_predictions.py
-
-### Extraction Modules
-- **`extract_neurons.py`** - Neuron activation extraction for all layers/heads
-- **`extract_embeddings.py`** - Embedding extraction with dimension reduction
-- **`extract_predictions.py`** - Next token prediction generation
-- **`extract_logits.py`** - Raw logit extraction and saving
-
-### Utilities
-- **`model_loader.py`** - BDH model and tokenizer initialization
-- **`embedding_processing.py`** - Dimension reduction, normalization, RoPE transformation
-
-## Output Structure
-
-All outputs are saved to `Data/infer/`:
-
-```
+```text
 Data/infer/
-├── embeddings.csv        # Token embeddings (original + RoPE)
-├── predictions.csv       # Top-K predictions with probabilities
-├── logits.csv           # Raw logits for all vocab tokens
+├── embeddings.csv        # Token embeddings (Original + RoPE geometries)
+├── predictions.csv       # Top-K sequence predictions and probabilities
+├── logits.csv            # Raw logits covering the entire vocabulary space
 ├── layer1/
-│   ├── head1.csv        # Top 50 neurons for layer 1, head 1
+│   ├── head1.csv         # Top 50 activating neurons (Layer 1, Head 1)
 │   ├── head2.csv
-│   ├── head3.csv
-│   └── head4.csv
-├── layer2/
 │   └── ...
 ...
 └── layer6/
     └── ...
 ```
 
-## CSV Output Formats
+### Data Formats
 
-### Embeddings CSV
-Includes both original and RoPE-transformed embeddings:
-
+**Embeddings CSV (`embeddings.csv`)**
+Captures both spatial (original) and phase-rotated (RoPE) topological states mapping down to 30 continuous dimensions.
 ```csv
 Token_Text,Token_ID,Embedding_Type,Dim_0,Dim_1,...,Dim_29
 Once,12966,original,0.4594,0.4635,...,0.2506
 Once,12966,rope,0.5123,0.3821,...,0.3145
- upon,2402,original,0.7324,0.2248,...,0.4425
- upon,2402,rope,0.6891,0.3012,...,0.3987
 ```
 
-**Note:** Each token has 2 rows - one for original embeddings, one for RoPE-transformed.
-
-### Predictions CSV
+**Predictions CSV (`predictions.csv`)**
 ```csv
 Input_Text,Once upon a time
 Temperature,0.8
@@ -127,222 +78,75 @@ Top_K,20
 Rank,Token,Token_ID,Probability
 1, little,1310,0.733400
 2, boy,2933,0.124500
-3, girl,2576,0.089200
 ```
 
-### Logits CSV
-```csv
-Input_Text,Once upon a time
-Vocab_Size,50257
-
-Token_ID,Logit
-0,-15.234560
-1,-12.456789
-2,-18.901234
-...
-```
-
-### Neuron CSV
+**Neuron CSV (`headX.csv`)**
 ```csv
 Layer,Head,Neuron_Number,Value
 1,1,4523,124.56
 1,1,2891,98.34
-1,1,7654,87.23
 ```
 
-## Parameters
+---
 
-### Temperature (0.1 - 2.0)
-- **0.1-0.5**: Focused, deterministic predictions
-- **0.6-1.0**: Balanced (recommended: 0.8)
-- **1.1-2.0**: Random, creative predictions
+## Sampling Parameters
 
-### Top-K (1 - 100)
-- **1-10**: Most confident predictions only
-- **10-30**: Good balance for analysis (recommended: 20)
-- **30-100**: Comprehensive view
+### Temperature [0.1 - 2.0]
+*   **0.1 - 0.5**: Highly deterministic, focused distribution. Recommended for standard language modeling tasks.
+*   **0.6 - 1.0**: Balanced distribution. (Default setting: 0.8).
+*   **1.1 - 2.0**: High variance, producing highly creative or unstable sequences.
 
-## Technical Details
+### Top-K [1 - 100]
+*   **1 - 10**: Restricts sampling strictly to highest confidence outputs.
+*   **10 - 30**: Optimal range for generalized analysis. (Default setting: 20).
+*   **30 - 100**: Comprehensive distributional view for deep behavior analysis.
 
-### RoPE (Rotary Positional Embeddings)
-Positional information is injected through rotation transformations rather than additive embeddings:
+---
 
-**Formula:** `v' = v * cos(pos × freq) + v_rot * sin(pos × freq)`
+## Extractor API & Advanced Usage
 
-where position-dependent phases rotate embedding dimensions in pairs.
-
-### Model Architecture
-- **Layers**: 6
-- **Heads per layer**: 4
-- **Embedding dimension**: 256D
-- **Reduced dimensions**: 30D (demo.py) or 32D (extract_embeddings.py)
-- **Vocabulary**: 50,257 tokens (GPT-2 tokenizer)
-
-### Processing Pipeline
-1. **Load Model** - Initialize BDH model and tokenizer
-2. **Tokenize** - Text → Token IDs (tiktoken GPT-2)
-3. **Extract Embeddings** - Token IDs → 256D embeddings
-4. **Apply RoPE** - Rotary positional encoding transformation
-5. **Reduce Dimensions** - 256D → 30D/32D (evenly spaced sampling)
-6. **Normalize** - Min-max scaling to [0,1] range
-7. **Generate Predictions** - Forward pass → Top-K tokens
-8. **Extract Neurons** - Capture activations from each layer/head
-9. **Save All** - Organized CSV outputs
-### Processing Pipeline
-1. **Load Model** - Initialize BDH model and tokenizer
-2. **Tokenize** - Text → Token IDs (tiktoken GPT-2)
-3. **Extract Embeddings** - Token IDs → 256D embeddings
-4. **Apply RoPE** - Rotary positional encoding transformation
-5. **Reduce Dimensions** - 256D → 30D/32D (evenly spaced sampling)
-6. **Normalize** - Min-max scaling to [0,1] range
-7. **Generate Predictions** - Forward pass → Top-K tokens
-8. **Extract Neurons** - Capture activations from each layer/head
-9. **Save All** - Organized CSV outputs
-
-## Advanced Usage
-
-### Using Extraction Modules Directly
+For custom integration workflows, individual extraction modules can be instantiated directly via Python scripts.
 
 ```python
 from model_loader import load_model, setup_tokenizer
-from extract_embeddings import extract_embeddings_simple
 from extract_predictions import extract_predictions
-from extract_neurons import extract_all_neurons
 
-# Load model once
+# 1. Initialize the BDH Model and GPT-2 Tokenizer schema
 model, config = load_model()
 encoder = setup_tokenizer()
 
-# Extract specific data
-text = "Once upon a time"
-
-# Just embeddings
-token_ids, embeddings = extract_embeddings_simple(
-    model, encoder, text, "output.csv"
-)
-
-# Just predictions
+# 2. Extract Top-10 predictions using a creative temperature threshold
 predictions, logits = extract_predictions(
-    model, encoder, text, "pred.csv", temperature=0.9, top_k=10
+    model=model, 
+    encoder=encoder, 
+    text="Once upon a time", 
+    output_filename="pred.csv", 
+    temperature=0.9, 
+    top_k=10
 )
-
-# Just neurons
-extract_all_neurons(model, config, encoder, text, "output_dir/")
 ```
 
-### Customizing Extraction
-
-Each module can be imported and customized:
+For advanced node-level (neuron) captures, the core forward pass hook can intercept activation tensors dynamically:
 
 ```python
-from extract_neurons import forward_with_neuron_capture, save_neurons_for_head
+from extract_neurons import forward_with_neuron_capture
 
-# Capture specific layer
+# Capture activation tensors strictly for Layer 3
 result = forward_with_neuron_capture(model, config, token_tensor, capture_layer=3)
-activations = result['activations']
-
-# Save specific head
-save_neurons_for_head(
-    "layer3_head2.csv",
-    text="Hello world",
-    token_strs=["Hello", " world"],
-    layer_num=3,
-    head_num=1,  # 0-indexed
-    activations=activations,
-    config=result['config'],
-    top_n=100  # Save top 100 neurons instead of 50
-)
+layer_3_activations = result['activations']
 ```
 
-## Workflow Examples
+---
 
-### Example 1: Parameter Sweep
-```bash
-# Run model once
-./run_demo.sh
-# Input: "The cat sat on the"
-# Temperature: 0.8, Top-K: 20
+## Troubleshooting & Dependencies
 
-# Try different parameters instantly
-./run_update_predictions.sh
-# Temperature: 0.1  → deterministic
-# Temperature: 1.5  → creative
-# Temperature: 2.0  → very random
-```
+**Primary Dependencies**
+*   **Python:** 3.8+
+*   **PyTorch:** Matrix operations and model graph parsing.
+*   **tiktoken:** GPT-2 BPE (Byte-Pair Encoding) implementation.
+*   **Expected Checkpoint Route:** Continually verifies against `../Models/BDH_model/checkpoints/ckpt_5000.pt`. Adjust pathing in scripts or via environment variables if checkpoints deviate.
 
-### Example 2: Batch Processing
-```python
-from model_loader import load_model, setup_tokenizer
-from extract_predictions import extract_predictions
-
-model, config = load_model()
-encoder = setup_tokenizer()
-
-texts = [
-    "Once upon a time",
-    "The quick brown fox",
-    "In a galaxy far far away"
-]
-
-for i, text in enumerate(texts):
-    extract_predictions(
-        model, encoder, text,
-        f"pred_{i}.csv",
-        temperature=0.8,
-        top_k=20
-    )
-```
-
-## Dependencies
-
-### Required
-- **Python**: 3.8+
-- **PyTorch**: For model operations
-- **tiktoken**: GPT-2 tokenizer
-- **NumPy**: Array operations
-
-### Model
-- **BDH Checkpoint**: `../Models/BDH_model/checkpoints/ckpt_5000.pt`
-
-## Troubleshooting
-
-### Common Issues
-
-**1. `ModuleNotFoundError: No module named 'torch'`**
-- Activate ML environment: `conda activate ml`
-- Or use launcher scripts: `./run_demo.sh`
-
-**2. Model not found**
-- Check path: `../Models/BDH_model/checkpoints/ckpt_5000.pt`
-- Ensure checkpoint exists
-
-**3. Permission denied on .sh files**
-- Make executable: `chmod +x run_demo.sh run_update_predictions.sh`
-
-**4. Output directory not created**
-- The script auto-creates `Data/infer/` - check write permissions
-
-### Performance Tips
-
-- **Model loading**: Model loads once per session (2GB RAM)
-- **Fast updates**: Use `update_predictions.py` to avoid reloading model
-- **Batch processing**: Load model once, process multiple texts
-- **Memory**: Close other applications if needed
-
-## Output File Sizes
-
-Approximate sizes for typical inputs:
-
-- **embeddings.csv**: ~5KB per token (includes original + RoPE)
-- **predictions.csv**: ~2KB (top-20)
-- **logits.csv**: ~1.2MB (full vocabulary, 50K+ tokens)
-- **neuron CSV**: ~10KB per head (top-50 neurons)
-- **Total per run**: ~1.5MB for 4-token input
-
-## License
-
-Part of the BDH_visuals project for educational and research purposes.
-
-## Contact & Issues
-
-For issues or questions, refer to the main project repository.
+**Common Resolution Paths**
+*   *ModuleNotFoundError ('torch')*: Ensure the `ml` Conda environment is active before invoking Python explicitly.
+*   *Permission Denied*: Ensure execution rights on shell wrappers: `chmod +x *.sh`.
+*   *Memory Overflow*: The checkpoint loader inherently buffers roughly ~2GB into system RAM upon initialization. Ensure adequate hardware overhead before invoking batch tasks.

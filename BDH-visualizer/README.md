@@ -32,7 +32,7 @@ BDH-visualizer/
 │   ├── server.py               # API endpoints (inference, embeddings, neurons)
 │   └── utils.py                # Model loader and supporting Python utilities
 ├── Data/                       # Data processing and prediction utilities
-├── Frontend/                   # Next.js 3D web application
+├── Frontend/                   # Next.js 3D web application 
 │   ├── app/                    # Next.js App Router structure
 │   ├── components/             # React and WebGL/React Three Fiber components
 │   └── lib/                    # Shared utilities and configuration
@@ -45,6 +45,13 @@ BDH-visualizer/
 ├── setup_environment.sh        # Automated environment configuration script
 └── start_server.sh             # FastAPI launch script
 ```
+
+### Module Documentation
+For comprehensive details regarding each sub-system, please refer to their dedicated documentation:
+*   [**Frontend Documentation**](Frontend/README.md): Next.js app architecture, 3D WebGL scenes, and UI components.
+*   [**Backend Documentation**](Backend/README.md): FastAPI endpoints, Python environment behavior, and tensor calculations.
+*   [**Models Documentation**](Models/README.md): PyTorch model architecture, GPT training on Colab/Local, and inference scripts.
+*   [**Data Tools Documentation**](Data/README.md): Utilities for harvesting logits, neuron activations, and topological embeddings.
 
 ---
 
@@ -80,7 +87,7 @@ python -m uvicorn Backend.server:app --host 0.0.0.0 --port 8000 --reload
 
 ### 3. Launching the Frontend Application
 
-The Next.js application serves the interactive visualizations.
+The Next.js application serves the interactive visualizations. For complete details on the frontend architecture, 3D rendering stack, and configuration, please refer to the dedicated [Frontend README](Frontend/README.md).
 
 ```bash
 cd Frontend
