@@ -36,7 +36,17 @@ This repository serves as the companion guide to our 6-part YouTube masterclass 
 
 ---
 
-## Resources
+## Slides and Tutorial Notes 
+
+* **[Click here](https://drive.google.com/file/d/1wfHo4MFkx70UqVaeypIEUxnP5OrKAAAP/view):** Slides for Vid-01
+* **[Click here](https://drive.google.com/file/d/1TGRwBrWloyPEVpNqFwIVe27j4CWZvf24/view):** Slides for Vid-02 
+* **[Click here](https://www.google.com/url?q=https://miro.com/app/board/uXjVGBdUMzc%3D/?share_link_id%3D863578517125&sa=D&source=editors&ust=1772042355064942&usg=AOvVaw0CsHQkqc4fWsOfXV52jfK5):** Notes for Vid-03
+* **[Click here](https://drive.google.com/file/d/1rEe8LbIge8DJVGr_x0riMZ8ykOoRyFGR/view):** Slides for Vid-04
+* **[Click here](https://drive.google.com/file/d/1T55uVn1xGhDqc8gAGjLrNKFpNVT1HTPk/view):** Slides for Vid-05
+* **[Click here](https://www.google.com/url?q=https://miro.com/app/board/uXjVGBdUMzc%3D/?share_link_id%3D863578517125&sa=D&source=editors&ust=1772042355064942&usg=AOvVaw0CsHQkqc4fWsOfXV52jfK5):** Notes for Vid-06
+
+
+## References
 
 * **[Original BDH Paper](https://arxiv.org/abs/2509.26507):** Read the foundational research.
 * **[Pathway GitHub Repo](https://github.com/pathwaycom/bdh):** The official source code for BDH.
