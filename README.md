@@ -45,6 +45,13 @@ The interactive visualizer is deployed and accessible at:
 
 **[https://bdh-explainer.vercel.app/](https://bdh-explainer.vercel.app/)**
 
+<!-- Prominent demo button -->
+<p align="center">
+    <a href="https://bdh-explainer.vercel.app/" target="_blank">
+        <img src="https://img.shields.io/badge/Open-Hosted%20Demo-blue?style=for-the-badge&logo=vercel" alt="Open Hosted Demo" />
+    </a>
+</p>
+
 ---
 
 ## How to Run Locally
@@ -146,13 +153,13 @@ Open `http://localhost:3000` in your browser.
 
 #### BDH visualization
 <video controls width="640">
-    <source src="BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4" type="video/mp4">
+    <source src="https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4" type="video/mp4">
     Your browser does not support the video tag. <a href="BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4">Watch the BDH visualization demo</a>.
 </video>
 
 #### BDH understanding
 <video controls width="640">
-    <source src="Understanding%20BDH/Understanding_BDH_Go-through.mp4" type="video/mp4">
+    <source src="https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/Understanding%20BDH/Understanding_BDH_Go-through.mp4" type="video/mp4">
     Your browser does not support the video tag. <a href="Understanding%20BDH/Understanding_BDH_Go-through.mp4">Watch the BDH understanding demo</a>.
 </video>
 
