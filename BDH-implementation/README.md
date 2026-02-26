@@ -41,6 +41,8 @@ Before executing the code, please download the following three files and place t
 
 https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
 
+Project demo (visualizer): [![Open Demo](https://img.shields.io/badge/Open-Demo-blue?style=for-the-badge&logo=vercel)](https://bdh-explainer.vercel.app/bdh-implementation.html)
+
 
 
 ## Model Architecture & Diffusion Pipeline
