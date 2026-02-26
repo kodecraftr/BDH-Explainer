@@ -97,10 +97,6 @@ Integrating Baby Dragon Hatchling into a medical diffusion pipeline surfaces a c
 
 The core contribution is sparse/linear attention behavior in the BDH blocks that reduces memory growth relative to standard attention and improves practical scalability.
 
-### SEAL Extends BDH Into Adaptive Territory
-
-SEAL (`src/net/seal_adapter.py`) adds test-time adaptation through self-consistency checks and lightweight update steps, enabling patient-specific adjustment during inference.
-
 ### From Sparsity to Full Anatomical Consistency
 
 BDH attention improves efficiency while SEAL adds adaptive robustness. Together, they improve practical inference behavior on longitudinal multi-modal MRI slices.
