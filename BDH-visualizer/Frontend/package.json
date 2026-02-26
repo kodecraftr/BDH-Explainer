@@ -24,6 +24,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-katex": "^3.1.0",
+    "recharts": "^3.7.0",
     "shadcn": "^3.8.3",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0",

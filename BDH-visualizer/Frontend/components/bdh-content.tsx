@@ -2,6 +2,7 @@
 
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
+import { ComparisonCharts } from "./comparison-charts";
 
 export function BDHContent() {
   return (
@@ -67,6 +68,9 @@ export function BDHContent() {
             BDH represents each token in the vocabulary as a multidimensional vector. In the tensor-based BDH-GPU architecture, this vector&apos;s dimension is tied to the model&apos;s low-rank &quot;synaptic dimension&quot; (denoted as <InlineMath math="d" />, typically a 256-dimensional vector). These embedding vectors are stored in an embedding matrix, allowing the model to assign semantic meaning to each token. Tokens with similar usage or meaning are placed close together in this high-dimensional space. This vector representation captures the semantic meaning of the tokens and serves as the input to the first layer of the BDH model.
           </p>
         </div>
+      </div>
+      <div className="article-section-image text-center">
+        <img src="/embedding.png" alt="Embedding visualization" className="article-figure" />
       </div>
 
       <div className="article-section">
@@ -147,6 +151,10 @@ export function BDHContent() {
           This conversion happens through a specific sequence of operations: <code>Logits -&gt; Scaled Logits (/Temp) -&gt; Top-K Filter -&gt; Softmax -&gt; Probabilities</code>.
         </p>
 
+        <div className="article-section-image text-center">
+          <img src="/next_token.png" alt="Next token probabilities visualization" className="article-figure" />
+        </div>
+
         <ul>
           <li>
             <strong>Logits (Linear Readout):</strong> The final layer produces a compressed synaptic vector <InlineMath math="v^*" />. BDH uses a linear token decoder function (<InlineMath math="f_d" />) to map this vector to raw, unnormalized scores called <strong>logits</strong>.
@@ -190,6 +198,14 @@ export function BDHContent() {
             Residual connections (or skip connections) act as shortcuts that bypass one or more layers, adding the original input of a layer directly to its output. This is essential for training deep neural networks, as it allows gradients to flow backward through the network more easily, mitigating the vanishing gradient problem. In BDH-GPU, residual connections are used to carry forward the token&apos;s core representations at two crucial stages: both when expanding the token&apos;s state into the massive neuronal dimension (updating <InlineMath math="x" />) and when compressing it back into the synaptic dimension (updating the <InlineMath math="v^*" /> vector). This ensures that vital contextual information is not lost as it passes through the successive, highly-sparse ReLU gates, maintaining stability across all layers.
           </p>
         </div>
+      </div>
+
+      <div className="article-section" id="comparison">
+        <h1>BDH vs. Transformer</h1>
+        <p>
+          To understand the advantages of the BDH architecture, we compare it head-to-head against the GPT-2 Transformer on identical training data and parameter budgets. The results below demonstrate that BDH matches or exceeds Transformer performance while being dramatically more parameter-efficient and exhibiting biologically inspired sparse activations.
+        </p>
+        <ComparisonCharts />
       </div>
 
       <div className="article-section">
@@ -391,6 +407,20 @@ export function BDHContent() {
           padding-left: 1rem;
           border-left: 2px solid rgba(106, 45, 213, 0.18);
           margin-bottom: 1.25rem;
+        }
+
+        .article-section-image {
+          margin: 1.25rem 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .article-figure {
+          max-width: 100%;
+          height: auto;
+          border-radius: 0.5rem;
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
         }
 
         @media (min-width: 640px) {
