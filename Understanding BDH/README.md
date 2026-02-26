@@ -3,14 +3,17 @@
 [![YouTube Playlist](https://img.shields.io/badge/YouTube-Watch_the_Series-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/playlist?list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G)
 [![Pathway](https://img.shields.io/badge/Original_Paper_Published_by-Pathway-green?style=for-the-badge)](https://pathway.com/)
 
-Welcome to **Understanding BDH**, a comprehensive video tutorial series and resource hub dedicated to demystifying the **Baby Dragon Hatchling (BDH)** language model architecture. 
+Welcome to **Understanding BDH**, a comprehensive video tutorial series dedicated to demystifying the **Baby Dragon Hatchling (BDH)** language model architecture. 
+This tutorial is based on the research paper titled "The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain" published by Pathway.
 
-If you are looking to understand how we can move beyond the quadratic memory constraints of standard Transformers by leveraging biologically inspired, scale-free graph dynamics, you are in the right place.
+This series assumes a solid foundation in mathematics and a fundamental understanding of core machine learning principles; no specialized prerequisites are otherwise required. It is deliberately designed to serve as a definitive reference guide for the AI research and developer community.
+
+This tutorial is intended for practitioners and researchers seeking to understand how biologically inspired, scale-free graph dynamics can be leveraged to enable continual learning and overcome the quadratic memory constraints inherent in standard Transformer architectures.
 
 ## What is BDH?
-BDH (Baby Dragon Hatchling) is a novel architecture that bridges the gap between the distributed, sparse physics of biological brains and the dense, tensor-based efficiency of modern GPUs. By replacing the traditional $O(N^2)$ global matrix attention and infinitely growing KV-caches with a fixed-size state matrix, high-dimensional sparsity, and local graph dynamics, BDH achieves Transformer-level performance with linear $O(T)$ scaling.
+The Baby Dragon Hatchling (BDH) is a novel architecture that theoretically models the distributed, sparse physics inherent in biological brains, while practically implementing a slight variation of the original idea by leveraging the tensor-based computational efficiency of modern GPUs. By replacing traditional $O(N^2)$ global matrix attention mechanisms and monotonically expanding key-value (KV) caches with a fixed-size state matrix, high-dimensional sparsity, and localized graph dynamics, the BDH architecture achieves Transformer-level performance while maintaining strictly linear $O(T)$ computational scaling.
 
-This repository serves as the companion guide to our 6-part YouTube masterclass on the BDH paper.
+This file serves as the official companion guide to our six-part YouTube tutorial series analyzing the foundational BDH research paper.
 
 ---
 
@@ -20,13 +23,13 @@ This repository serves as the companion guide to our 6-part YouTube masterclass 
 **Setting the Stage.** We break down the fundamentals of the standard Transformer architecture, explain the mechanics (and the bottlenecks) of global softmax Attention, and introduce the core motivations behind the Baby Dragon Hatchling (BDH) architecture. 
 
 ### [#2 BDH-Graph | Beyond the Matrix: Distributed Graph Intelligence](https://www.youtube.com/watch?v=kn0DLsSKXJM&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=2)
-**Section 2 of the Paper.** We dive into the theoretical math of BDH. Learn how to replace monolithic matrix operations with local graph dynamics. We cover the 4-phase reasoning cycle (Read, Write, Filter, Send), Hebbian learning, and Replicator Dynamics.
+**Section 2 of the Paper.** We dive into the theoretical math of BDH. Learn how to replace matrix based attention operations with local graph dynamics. We cover the 4-phase reasoning cycle (Read, Write, Filter, Send), Hebbian learning, and Replicator Dynamics.
 
 ### [#3 BDH-GPU | A Tensor-Friendly Version of the BDH Architecture](https://www.youtube.com/watch?v=2JSm78o65R8&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=3)
-**Section 3 of the Paper.** How do we run organic graph physics on a GPU? We explore the low-rank factorizations that translate $O(N^2)$ graph connections into efficient tensor operations, proving that continual, synaptic reasoning is compatible with modern deep learning stacks.
+**Section 3 of the Paper.** How do we run graph physics on a GPU ? We explore the low-rank factorizations that translate $O(N^2)$ graph connections into efficient tensor operations, proving that continual, synaptic reasoning is compatible with modern deep learning stacks.
 
 ### [#4 Bridging Biological Graph Dynamics with Tensor Efficiency](https://www.youtube.com/watch?v=2YKTmu9MQYw&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=4)
-**Section 4 of the Paper.** The engineering reality. We break down the implementation details: how BDH uses just three shared matrices ($E, D_x, D_y$), how it maintains a constant memory footprint, and how the 5% activation sparsity drives computational efficiency and $O(T)$ linear scaling laws.
+**Section 4 of the Paper.** The engineering reality. We break down the implementation details: how BDH uses three shared matrices ($E, D_x, D_y$), how it maintains a constant memory footprint, and how the 5% activation sparsity drives computational efficiency and $O(T)$ linear scaling laws.
 
 ### [#5 Analysis: Emergence of Modularity and Scale-Free Structure](https://www.youtube.com/watch?v=Y3X_UiCOkMo&list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G&index=5)
 **Section 5 of the Paper.** Why does this architecture matter? We explore "Axiomatic AI" and how imposing structural constraints (bottlenecks, sparsity, thresholds) forces the network to spontaneously evolve biological traits—like core-periphery hubs, monosemantic synapses, and composability.
