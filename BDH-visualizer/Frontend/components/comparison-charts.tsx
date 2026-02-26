@@ -359,7 +359,7 @@ export function ComparisonCharts() {
               <Legend />
               <Line
                 type="monotone"
-                dataKey="BDH"
+                dataKey="Transformer"
                 stroke="#6A2DD5"
                 strokeWidth={2}
                 dot={false}
@@ -367,7 +367,7 @@ export function ComparisonCharts() {
               />
               <Line
                 type="monotone"
-                dataKey="Transformer"
+                dataKey="BDH"
                 stroke="#e85d75"
                 strokeWidth={2}
                 dot={false}
