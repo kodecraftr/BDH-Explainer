@@ -43,8 +43,6 @@ BDH-Explainer/
 
 The interactive visualizer is deployed and accessible at:
 
-**[https://bdh-explainer.vercel.app/](https://bdh-explainer.vercel.app/)**
-
 <!-- Prominent demo button -->
 <p align="center">
     <a href="https://bdh-explainer.vercel.app/" target="_blank">
@@ -145,35 +143,11 @@ Open `http://localhost:3000` in your browser.
 
 ### Demo Videos
 
-#### BDH implementation
-<video controls width="640">
-    <source src="https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d" type="video/mp4">
-    Your browser does not support the video tag. <a href="https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d">Watch the BDH implementation demo</a>.
-</video>
+You can watch the three go-through demos here:
 
-#### BDH visualization
-<video controls width="640">
-    <source src="https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4" type="video/mp4">
-    Your browser does not support the video tag. <a href="BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4">Watch the BDH visualization demo</a>.
-</video>
-
-#### BDH understanding
-<video controls width="640">
-    <source src="https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/Understanding%20BDH/Understanding_BDH_Go-through.mp4" type="video/mp4">
-    Your browser does not support the video tag. <a href="Understanding%20BDH/Understanding_BDH_Go-through.mp4">Watch the BDH understanding demo</a>.
-</video>
-
-### Inference Results
-
-| Subject 03 | Subject 04 |
-|:-----------:|:-----------:|
-| ![Sub-03 Prediction vs Ground Truth](BDH-implementation/inference_results/sub-03/pred_vs_gt.png) | ![Sub-04 Prediction vs Ground Truth](BDH-implementation/inference_results/sub-04/pred_vs_gt.png) |
-
-### Model Architecture
-
-![Architecture](BDH-implementation/data/architecture.png)
-
----
+- BDH implementation demo: [Watch BDH implementation demo](https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d)
+- BDH visualization demo: [Watch BDH visualization demo](https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4)
+- BDH understanding demo: [Watch BDH understanding demo](https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/Understanding%20BDH/Understanding_BDH_Go-through.mp4)
 
 ## Team Members and Contributions
 

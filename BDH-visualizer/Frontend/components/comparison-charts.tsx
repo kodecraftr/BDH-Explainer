@@ -330,55 +330,6 @@ export function ComparisonCharts() {
         </div>
       </div>
 
-      {/* Chart 4: Random Sequence Memory */}
-      <div className="chart-block">
-        <h3>Sequence Position Loss (Random Data)</h3>
-        <p className="chart-desc">
-          Loss across sequence positions on random data. BDH shows a notably
-          lower loss at early positions, indicating faster context acquisition.
-          The two models converge at longer contexts, with BDH&apos;s state-space
-          memory offering competitive performance throughout.
-        </p>
-        <div className="chart-wrapper">
-          <ResponsiveContainer width="100%" height={340}>
-            <LineChart data={memoryLineData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(106,45,213,0.1)" />
-              <XAxis
-                dataKey="position"
-                stroke="#94a3b8"
-                fontSize={11}
-                label={{ value: "Sequence Position", position: "insideBottom", offset: -5, fill: "#94a3b8", fontSize: 12 }}
-              />
-              <YAxis
-                stroke="#94a3b8"
-                fontSize={11}
-                domain={["auto", "auto"]}
-                label={{ value: "Loss (rolling avg)", angle: -90, position: "insideLeft", fill: "#94a3b8", fontSize: 12 }}
-              />
-              <Tooltip contentStyle={tooltipStyle} />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="Transformer"
-                stroke="#6A2DD5"
-                strokeWidth={2}
-                dot={false}
-                connectNulls
-              />
-              <Line
-                type="monotone"
-                dataKey="BDH"
-                stroke="#e85d75"
-                strokeWidth={2}
-                dot={false}
-                connectNulls
-                strokeDasharray="6 3"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
       {/* Sparse Activation GIF */}
       <div className="chart-block">
         <h3>Sparse Activation During Inference</h3>
