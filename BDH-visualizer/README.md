@@ -1,6 +1,6 @@
 # BDH Visualizer
 
-The BDH Visualizer is an interactive research toolkit designed for exploring model behavior and the internal representations of the Baby Dragon Hypernetwork (BDH), alongside related Transformer baselines. The architecture pairs a high-performance Python/FastAPI backend with a modern Next.js frontend, enabling deep inspection of token encodings, neuron activations, sequence generation, and sparse network topologies through 3D visualization.
+The BDH Visualizer is an interactive research toolkit designed for exploring model behavior and the internal representations of the Baby Dragon Hatchling (BDH), alongside related Transformer baselines. The architecture pairs a high-performance Python/FastAPI backend with a modern Next.js frontend, enabling deep inspection of token encodings, neuron activations, sequence generation, and sparse network topologies through 3D visualization.
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-bdh--explainer.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://bdh-explainer.vercel.app/)
 

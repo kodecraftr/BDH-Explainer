@@ -7,7 +7,7 @@ from typing import List, Optional, Dict, Any
 from Backend.utils import BDHModelHandler
 
 # --- 1. Initialize App & Model ---
-app = FastAPI(title="BDH Model API", description="API for Baby Dragon Hypernetwork")
+app = FastAPI(title="BDH Model API", description="API for Baby Dragon Hatchling")
 
 # Global model handler
 handler = None

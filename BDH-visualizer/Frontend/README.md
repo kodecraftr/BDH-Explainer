@@ -1,6 +1,6 @@
 # BDH Visualizer - Frontend
 
-The frontend for the **BDH Visualizer** is a modern, responsive web application built with **Next.js** and **React Three Fiber**. It provides the interactive user interface for exploring the Baby Dragon Hypernetwork (BDH) architectures in 3D, and visualizing complex embeddings and neuron activations directly in the browser.
+The frontend for the **BDH Visualizer** is a modern, responsive web application built with **Next.js** and **React Three Fiber**. It provides the interactive user interface for exploring the Baby Dragon Hatchling (BDH) architectures in 3D, and visualizing complex embeddings and neuron activations directly in the browser.
 
 ---
 
