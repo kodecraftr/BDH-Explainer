@@ -149,6 +149,16 @@ You can watch the three go-through demos here:
 - BDH visualization demo: [Watch BDH visualization demo](https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4)
 - BDH understanding demo: [Watch BDH understanding demo](https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/Understanding%20BDH/Understanding_BDH_Go-through.mp4)
 
+### Images
+
+- BDH implementation architecture:
+
+    ![BDH implementation architecture](BDH-implementation/data/architecture.png)
+
+- BDH visualizer interface:
+
+    ![BDH visualizer screenshot](BDH-visualizer/static/image.png)
+
 ## Team Members and Contributions
 
 | Component | Members | Work |
