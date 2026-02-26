@@ -136,9 +136,12 @@ Open `http://localhost:3000` in your browser.
 
 ## Video Demo and Images
 
-### Demo Video
+### Demo Videos
 
-https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
+| Component | Demo Video |
+|:----------|:-----------|
+| **BDH Visualization** | [BDH Visualization Go-through](BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4) |
+| **BDH Understanding** | [Understanding BDH Go-through](Understanding%20BDH/Understanding_BDH_Go-through.mp4) |
 
 ### Inference Results
 
@@ -154,11 +157,11 @@ https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d
 
 ## Team Members and Contributions
 
-| Member | Contributions |
-|:-------|:-------------|
-| **Spandan** | BDH-implementation (medical diffusion model architecture, training pipeline, inference, SEAL adapter), project integration, README documentation |
-| **Team** | BDH-visualizer (Next.js frontend, Three.js 3D visualizations, FastAPI backend, data extraction pipeline), Understanding BDH (YouTube tutorial series, slides, and educational content) |
-
+| Component | Members | Work |
+|:----------|:--------|:-----|
+| **BDH Visualization** | Spandan, Shashank | Built the interactive Next.js + Three.js web visualizer with 3D neuron activations, token embedding explorer, and real-time next-token prediction. Developed the FastAPI backend, data extraction pipeline, and deployed the hosted demo. |
+| **BDH Implementation** | Nishant, Soham, Preyas | Implemented BDH linear attention inside the medical diffusion model (Bdh-DiT). Developed training and inference pipelines, integrated the SEAL adapter and evaluation metrics, and prepared preprocessing scripts and model checkpoints. |
+| **BDH Understanding** | Ujjwal, Sanchit, Prakhar | Produced the six-part YouTube tutorial series with accompanying slides. Authored step-by-step walkthroughs of the BDH architecture, math, design choices, limitations, and future directions. |
 ---
 
 ## Limitations and Future Scope
