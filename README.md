@@ -138,10 +138,23 @@ Open `http://localhost:3000` in your browser.
 
 ### Demo Videos
 
-| Component | Demo Video |
-|:----------|:-----------|
-| **BDH Visualization** | [BDH Visualization Go-through](BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4) |
-| **BDH Understanding** | [Understanding BDH Go-through](Understanding%20BDH/Understanding_BDH_Go-through.mp4) |
+#### BDH implementation
+<video controls width="640">
+    <source src="https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d" type="video/mp4">
+    Your browser does not support the video tag. <a href="https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d">Watch the BDH implementation demo</a>.
+</video>
+
+#### BDH visualization
+<video controls width="640">
+    <source src="BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4" type="video/mp4">
+    Your browser does not support the video tag. <a href="BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4">Watch the BDH visualization demo</a>.
+</video>
+
+#### BDH understanding
+<video controls width="640">
+    <source src="Understanding%20BDH/Understanding_BDH_Go-through.mp4" type="video/mp4">
+    Your browser does not support the video tag. <a href="Understanding%20BDH/Understanding_BDH_Go-through.mp4">Watch the BDH understanding demo</a>.
+</video>
 
 ### Inference Results
 
@@ -160,7 +173,7 @@ Open `http://localhost:3000` in your browser.
 | Component | Members | Work |
 |:----------|:--------|:-----|
 | **BDH Visualization** | Spandan, Shashank | Built the interactive Next.js + Three.js web visualizer with 3D neuron activations, token embedding explorer, and real-time next-token prediction. Developed the FastAPI backend, data extraction pipeline, and deployed the hosted demo. |
-| **BDH Implementation** | Nishant, Soham, Preyas | Implemented BDH linear attention inside the medical diffusion model (Bdh-DiT). Developed training and inference pipelines, integrated the SEAL adapter and evaluation metrics, and prepared preprocessing scripts and model checkpoints. |
+| **BDH Implementation** | Nishant, Soham, Preyash | Implemented BDH linear attention inside the medical diffusion model (Bdh-DiT). Developed training and inference pipelines, integrated the SEAL adapter and evaluation metrics, and prepared preprocessing scripts and model checkpoints. |
 | **BDH Understanding** | Ujjwal, Sanchit, Prakhar | Produced the six-part YouTube tutorial series with accompanying slides. Authored step-by-step walkthroughs of the BDH architecture, math, design choices, limitations, and future directions. |
 ---
 
