@@ -145,9 +145,9 @@ Open `http://localhost:3000` in your browser.
 
 You can watch the three go-through demos here:
 
-- BDH implementation demo: [Watch BDH implementation demo](https://github.com/user-attachments/assets/a9fdb518-9116-4246-a198-65f841f9149d)
-- BDH visualization demo: [Watch BDH visualization demo](https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/BDH-visualizer/static/BDH_Visaulizer_Go-through.mp4)
-- BDH understanding demo: [Watch BDH understanding demo](https://raw.githubusercontent.com/spandan11106/BDH-Explainer/main/Understanding%20BDH/Understanding_BDH_Go-through.mp4)
+ - BDH implementation demo: [Watch BDH implementation demo](https://youtu.be/kEowGahk7eI?si=gF2o20hoZTs_3ll8)
+ - BDH visualization demo: [Watch BDH visualization demo](https://youtu.be/m2QtAjVr-Kg?si=RJ6-yuR2XIyCgZ8M)
+ - BDH understanding demo: [Watch BDH understanding demo](https://youtu.be/0HZgI4Nn_6E?si=aWVA5lLbwk_xjlQK)
 
 ### Images
 
