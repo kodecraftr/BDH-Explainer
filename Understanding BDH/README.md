@@ -6,7 +6,7 @@
 Welcome to **Understanding BDH**, a comprehensive video tutorial series dedicated to demystifying the **Baby Dragon Hatchling (BDH)** language model architecture. 
 This tutorial is based on the research paper titled "The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain" published by Pathway.
 
-This series assumes a solid foundation in mathematics and a fundamental understanding of core machine learning principles; no specialized prerequisites are otherwise required. It is deliberately designed to serve as a definitive reference guide for the AI research and developer community.
+This series assumes a solid foundation in mathematics and a fundamental understanding of core machine learning principles; no specialized prerequisites are otherwise required. It is deliberately designed to serve as a reference guide for the AI research and developer community.
 
 This tutorial is intended for practitioners and researchers seeking to understand how biologically inspired, scale-free graph dynamics can be leveraged to enable continual learning and overcome the quadratic memory constraints inherent in standard Transformer architectures.
 
