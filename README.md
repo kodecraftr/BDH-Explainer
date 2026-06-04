@@ -3,6 +3,19 @@
 [![YouTube Playlist](https://img.shields.io/badge/YouTube-Watch_the_Series-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/playlist?list=PLS6rVTBBmT8sIcPJ8fPWlKRXvMj_fHq6G)
 [![Live Demo](https://img.shields.io/badge/Open-Live_Demo-blue?style=for-the-badge&logo=vercel)](https://bdh-explainer.vercel.app/)
 
+## Table of Contents
+
+- [What We Built](#what-we-built)
+- [What Insight It Reveals About BDH](#what-insight-it-reveals-about-bdh)
+- [Project Structure](#project-structure)
+- [How to Access the Hosted Demo](#how-to-access-the-hosted-demo)
+- [How to Run Locally](#how-to-run-locally)
+- [Video Demo and Images](#video-demo-and-images)
+- [Team Members and Contributions](#team-members-and-contributions)
+- [Limitations and Future Scope](#limitations-and-future-scope)
+- [License](#license)
+
+
 ## What We Built
 
 BDH-Explainer is a three-part project that implements, visualizes, and teaches the Baby Dragon Hatchling (BDH) architecture — a biologically inspired alternative to standard Transformer attention. The **BDH-implementation** component applies BDH linear attention to a medical diffusion model (Bdh-DiT) that predicts longitudinal brain tumor progression from MRI slices, using treatment-aware conditioning and joint image-segmentation generation. The **BDH-visualizer** is an interactive Next.js + Three.js web application backed by a FastAPI server that lets users explore BDH internals — neuron activations, token embeddings with RoPE transformations, and next-token prediction distributions — through 3D visualizations in real time. The **Understanding BDH** component is a six-part YouTube tutorial series with accompanying slides that walks through the original research paper section by section.
