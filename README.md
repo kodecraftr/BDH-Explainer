@@ -28,7 +28,7 @@ Integrating BDH into a medical diffusion pipeline surfaces a clear gap between a
 
 - **Sparse linear attention is the real strength.** The BDH blocks reduce memory growth from O(N^2) to O(N) relative to standard softmax attention by using an ELU+1 feature map with a K^T*V-first formulation, making it practical for high-resolution medical imaging on consumer GPUs.
 - **From sparsity to full anatomical consistency.** BDH attention improves efficiency, while the SEAL adapter adds adaptive robustness. Together, they improve practical inference behavior on longitudinal multi-modal MRI slices — the visualizer makes this visible by letting users inspect exactly which neurons activate and how embeddings shift under different inputs.
-- **Biological plausibility has engineering payoffs.** The fixed-size state matrix and ~5% activation sparsity that BDH borrows from neuroscience translate directly into constant memory footprint and linear scaling, validated both by our implementation benchmarks and the interactive visualizer.
+- **Biological plausibility has engineering payoffs.** The fixed-size state matrix and ~5% activation sparsity that BDH borrows from neuroscience translate directly into constant  memory footprint and linear scaling, validated both by our implementation benchmarks and the interactive visualizer.
 
 ---
 
