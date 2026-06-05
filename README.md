@@ -172,15 +172,6 @@ You can watch the three go-through demos here:
 
     ![BDH visualizer screenshot](BDH-visualizer/static/image.png)
 
-## Team Members and Contributions
-
-| Component | Members | Work |
-|:----------|:--------|:-----|
-| **BDH Visualization** | Spandan, Paras | Built the interactive Next.js + Three.js web visualizer with 3D neuron activations, token embedding explorer, and real-time next-token prediction. Developed the FastAPI backend, data extraction pipeline, and deployed the hosted demo. |
-| **BDH Implementation** | Nishant, Soham, Preyash | Implemented BDH linear attention inside the medical diffusion model (Bdh-DiT). Developed training and inference pipelines, integrated the SEAL adapter and evaluation metrics, and prepared preprocessing scripts and model checkpoints. |
-| **BDH Understanding** | Ujjwal, Sanchit, Prakhar | Produced the six-part YouTube tutorial series with accompanying slides. Authored step-by-step walkthroughs of the BDH architecture, math, design choices, limitations, and future directions. |
----
-
 ## Limitations and Future Scope
 
 ### Current Limitations
